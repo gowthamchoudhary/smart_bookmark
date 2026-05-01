@@ -1,0 +1,31 @@
+.card {
+  /* Size just for demo */
+  width: 300px;
+  height: 200px;
+
+  /* Gradient (30% opacity feel) */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.05)
+  );
+
+  /* Background blur */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  /* Border with 6% opacity */
+  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  /* Border radius */
+  border-radius: 30px;
+
+  /* Outer shape shadow (24px blur) */
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.15),
+    /* Inner shadows */ inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.1);
+
+  /* Optional: smooth edges */
+  overflow: hidden;
+}

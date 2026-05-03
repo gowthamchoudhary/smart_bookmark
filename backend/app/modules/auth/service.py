@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.core.security import get_password_hash, verify_password,create_access_token
+from app.core.security import get_password_hash, verify_password,create_access_token,decode_access_token
 from app.models.users import User
 from fastapi import Depends, HTTPException, status
 
@@ -21,5 +21,15 @@ def login_user(email:str,password:str,db:Session):
         raise HTTPException(status_code=400,detail="Invalid credentials")
     if not verify_password(password,db_user.password):
         raise HTTPException(status_code=400,detail="invalid credentials")
-    token = create_access_token(data={"sub":db_user.email})
+    token = create_access_token(data={"sub":str(db_user.id)})
     return token
+
+def get_current_user(token:str,db:Session):
+    payload = decode_access_token(token)
+    user_id = payload.get("sub")
+    if user_id is None:
+        raise HTTPException(status_code=401,detail="Invalid token")
+    user = db.query(User).filter(User.id==user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404,detail="User not found")
+    return user

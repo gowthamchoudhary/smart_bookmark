@@ -8,7 +8,7 @@ def create_bookmark(user,data,db:Session):
     db.commit()
     db.refresh(new_bookmark)
     return new_bookmark
-def get_user_bookmark(user,db:Session):
+def get_user_bookmarks(user,db:Session):
     return db.query(Bookmark).filter(Bookmark.user_id==user.id).all()
 
 def delete_bookmark(bookmark_id,user,db:Session):

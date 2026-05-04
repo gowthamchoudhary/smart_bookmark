@@ -34,3 +34,4 @@ def get_me(authorization:str = Header(...),db:Session = Depends(get_db)):
         return {"id":user.id,"email":user.email}
     except Exception as e:
         raise HTTPException(status_code=401,detail=str(e))
+

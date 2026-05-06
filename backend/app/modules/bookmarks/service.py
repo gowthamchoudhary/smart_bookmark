@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
-from app.models.bookmark import Bookmark                                                                                                                                                                                                                                                                                        
-
-
+from app.models.bookmark import Bookmark   
+from sqlalchemy import or_  
+  
 def create_bookmark(user,data,db:Session):
     new_bookmark = Bookmark(title=data.title,url=str(data.url),note=data.note,user_id=user.id)
     db.add(new_bookmark)
@@ -20,4 +20,15 @@ def delete_bookmark(bookmark_id,user,db:Session):
     db.delete(bookmark)
     db.commit()
     return {"message":"Bookmark deleted successfully"}
+
+def search_bookmark(user,query,db:Session):
+    bookmarks  = db.query(Bookmark).filter(Bookmark.user_id==user.id)
+    if bookmarks:
+        search = f"%{query}%"
+        bookmarks = bookmarks.filter(or_(Bookmark.title.ilike(f"%{search}"),
+                                         Bookmark.note.ilike(f"%{search}"),
+                                         Bookmark.url.ilike(f"%{search}"),))
+    return bookmarks.all()
+
+
 

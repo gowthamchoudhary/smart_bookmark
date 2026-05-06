@@ -3,6 +3,9 @@ from app.db.database import get_db
 from app.core.security import get_password_hash, verify_password,create_access_token,decode_access_token
 from app.models.users import User
 from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")                                                            
 
 def create_user(email:str,password:str,db:Session):
     db_user = db.query(User).filter(User.email==email).first()
@@ -24,7 +27,10 @@ def login_user(email:str,password:str,db:Session):
     token = create_access_token(data={"sub":str(db_user.id)})
     return token
 
-def get_current_user(token:str,db:Session):
+def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
+):
     payload = decode_access_token(token)
     user_id = payload.get("sub")
     if user_id is None:

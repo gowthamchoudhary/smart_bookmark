@@ -6,7 +6,10 @@ from app.modules.auth.schema import UserRegister, UserLogin,RefreshTokenRequest
 from app.db.database import get_db
 from fastapi.security import OAuth2PasswordRequestForm
 router = APIRouter(tags=["auth"])
-from app.core.security import decode_token,create_access_token,create_refresh_tokens
+from app.core.security import decode_token,create_access_token,create_refresh_tokens,get_token_hash
+from app.models.users import RefreshToken
+from datetime import datetime
+
 @router.post("/register")
 def register(user: UserRegister, db: Session = Depends(get_db)):
     try:
@@ -33,11 +36,23 @@ def get_me(current_user=Depends(get_current_user)):
         return {"id": current_user.id, "email": current_user.email}
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
+    
+
 @router.post("/refresh")
-def refresh_token(data:RefreshTokenRequest):
+def refresh_token(data:RefreshTokenRequest,db:Session=Depends(get_db)):
     payload = decode_token(data.refresh_token)
+    if payload is None:
+        raise HTTPException(status_code=401,detail="invalid token")
     if payload.get("type")!="refresh":
         raise HTTPException(status_code=401,detail="invalid refresh token")
+    hash_token = get_token_hash(data.refresh_token)
+    db_token = db.query(RefreshToken).filter(RefreshToken.token_hash==hash_token).first()
+    if not db_token:
+        raise HTTPException(status_code=401,detail="Invalid refresh token")
+    if db_token.revoked or db_token.expires_at<datetime.utcnow():
+        raise HTTPException(status_code=401,details="refresh token expired")
+    if db_token.expires_at<datetime.utcnow():
+        raise HTTPException(status_code=401,details="refresh token expired")
     user_id = payload["sub"]
     new_access_token = create_access_token({"sub":user_id,"type":"access"})
     new_refresh_token = create_refresh_tokens({"sub":user_id,"type":"refresh"})
@@ -45,3 +60,17 @@ def refresh_token(data:RefreshTokenRequest):
         "access_token": new_access_token,
         "refresh_token": new_refresh_token
     }
+@router.post("/logout")
+def logout(data:RefreshTokenRequest,db:Session = Depends(get_db)):
+    hashed_token = get_token_hash(data.refresh_token)
+    db_token = db.query(RefreshToken).filter(RefreshToken.token_hash==hashed_token).first()
+    if not db_token:
+        raise HTTPException(status_code=401,detail="invalid token")
+    if db_token.revoked:
+        raise HTTPException(status_code=400,detail="token already revoked")
+    db_token.revoked = True
+    db.commit()
+    return {
+        "message":"successfullt logged out"
+    }
+

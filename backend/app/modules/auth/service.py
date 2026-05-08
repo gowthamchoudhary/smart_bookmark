@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.core.security import get_password_hash, verify_password,create_access_token,decode_token,create_refresh_tokens
-from app.models.users import User
+from app.core.security import get_password_hash, verify_password,create_access_token,decode_token,create_refresh_tokens,get_token_hash
+from app.models.users import User,RefreshToken
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from datetime import datetime,timedelta
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")                                                            
 
@@ -11,7 +12,7 @@ def create_user(email:str,password:str,db:Session):
     db_user = db.query(User).filter(User.email==email).first()
     if db_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Email already registered")
-    hash_password = get_password_hash(password)
+    hash_password = get_token_hash(password)
     new_user = User(email=email,password=hash_password)
     db.add(new_user)
     db.commit()
@@ -26,6 +27,9 @@ def login_user(email:str,password:str,db:Session):
         raise HTTPException(status_code=400,detail="invalid credentials")
     token = create_access_token(data={"sub":str(db_user.id),"type":"access"})
     refresh_token =  create_refresh_tokens(data={"sub":str(db_user.id),"type":"refresh"})
+    hashed_token =get_token_hash(refresh_token)
+    db.add(RefreshToken(user_id = db_user.id,token_hash=hashed_token,expires_at=datetime.utcnow()+timedelta(days=7),device_info="unknown"))
+    db.commit()
     return {"access_token":token,"refresh_token":refresh_token}
 
 def get_current_user(

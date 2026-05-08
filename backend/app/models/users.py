@@ -8,7 +8,7 @@ class User(Base):
     id=Column(Integer,primary_key=True,index=True)
     email=Column(String,unique=True,index=True,nullable=False)
     password=Column(String)
-    refresh_tokens = relationship("RefreshToken",back_populates="user")
+    refresh_tokens = relationship("RefreshToken",back_populates="user",cascade="all,delete-orphan")
 
 class RefreshToken(Base):
     __tablename__ = "refresh_tokens"
@@ -17,6 +17,6 @@ class RefreshToken(Base):
     token_hash = Column(String,nullable=False,unique=True,index=True)
     expires_at = Column(DateTime,nullable=False)
     device_info = Column(String,nullable=True)
-    created_at = Column(DateTime,default=datetime.utcnow)
+    created_at = Column(DateTime,default=datetime.utcnow())
     revoked = Column(Boolean,default=False)
     user = relationship("User",back_populates="refresh_tokens")

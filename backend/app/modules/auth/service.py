@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.core.security import get_password_hash, verify_password,create_access_token,decode_access_token
+from app.core.security import get_password_hash, verify_password,create_access_token,decode_token,create_refresh_tokens
 from app.models.users import User
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -24,14 +24,15 @@ def login_user(email:str,password:str,db:Session):
         raise HTTPException(status_code=400,detail="Invalid credentials")
     if not verify_password(password,db_user.password):
         raise HTTPException(status_code=400,detail="invalid credentials")
-    token = create_access_token(data={"sub":str(db_user.id)})
-    return token
+    token = create_access_token(data={"sub":str(db_user.id),"type":"access"})
+    refresh_token =  create_refresh_tokens(data={"sub":str(db_user.id),"type":"refresh"})
+    return {"access_token":token,"refresh_token":refresh_token}
 
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db),
 ):
-    payload = decode_access_token(token)
+    payload = decode_token(token)
     user_id = payload.get("sub")
     if user_id is None:
         raise HTTPException(status_code=401,detail="Invalid token")

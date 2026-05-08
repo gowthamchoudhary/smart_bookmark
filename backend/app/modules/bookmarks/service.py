@@ -21,14 +21,33 @@ def delete_bookmark(bookmark_id,user,db:Session):
     db.commit()
     return {"message":"Bookmark deleted successfully"}
 
-def search_bookmark(user,query,db:Session):
-    bookmarks  = db.query(Bookmark).filter(Bookmark.user_id==user.id)
-    if bookmarks:
-        search = f"%{query}%"
-        bookmarks = bookmarks.filter(or_(Bookmark.title.ilike(f"%{search}"),
-                                         Bookmark.note.ilike(f"%{search}"),
-                                         Bookmark.url.ilike(f"%{search}"),))
-    return bookmarks.all()
+def search_bookmark(user, size, skip, query, db: Session):
+
+    bookmarks = db.query(Bookmark).filter(
+        Bookmark.user_id == user.id
+    )
+
+    search = f"%{query}%"
+
+    bookmarks = bookmarks.filter(
+        or_(
+            Bookmark.title.ilike(search),
+            Bookmark.note.ilike(search),
+            Bookmark.url.ilike(search),
+        )
+    )
+
+    total = bookmarks.count()
+
+    bookmarks = (
+        bookmarks
+        .order_by(Bookmark.id.desc())
+        .offset(skip)
+        .limit(size)
+        .all()
+    )
+
+    return bookmarks, total
 
 
 

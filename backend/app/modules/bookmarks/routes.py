@@ -46,9 +46,46 @@ def delete_route(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/search",response_model=list[BookmarkResponse])
-def search_bookmarks(query: str, current_user=Depends(get_current_user), db: Session = Depends(get_db)):
+@router.get("/search")
+def search_bookmarks(
+    query: str,
+    page: int = Query(1, ge=1),
+    size: int = Query(10, ge=1, le=100),
+    current_user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+
+    skip = (page - 1) * size
+
+    bookmarks, total = search_bookmark(
+        current_user,
+        size,
+        skip,
+        query,
+        db
+    )
+
+    return {
+        "items": bookmarks,
+        "page": page,
+        "size": size,
+        "total": total,
+        "pages": (total + size - 1) // size
+    }
     
-    return search_bookmark(current_user, query, db)
-    
-@router.get("/bookmarks")
+@router.get("/paginated")
+def get_bookmarks(
+    page:int=Query(1,ge=1),
+    size:int = Query(10,ge=1,le=100),
+    db:Session=Depends(get_db)
+):
+    offset = (page-1)*size
+    bookmarks = db.query(bookmarks).offset(offset).limit(size).all()
+    total = db.query(bookmarks).count()
+    return {
+        "items":bookmarks,
+        "page":page,
+        "size":size,
+        "total":total,
+        "pages":(total+size-1)//size
+    }

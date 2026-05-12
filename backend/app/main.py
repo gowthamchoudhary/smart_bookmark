@@ -4,7 +4,7 @@ from app.modules.auth.routes import router as auth_router
 from app.modules.bookmarks.routes import router as bookmark_router
 from app.middleware.logging import log_request
 
-Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI()
 app.middleware("http")(log_request)

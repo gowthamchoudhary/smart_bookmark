@@ -9,6 +9,7 @@ class User(Base):
     email=Column(String,unique=True,index=True,nullable=False)
     password=Column(String)
     refresh_tokens = relationship("RefreshToken",back_populates="user",cascade="all,delete-orphan")
+    workspaces = relationship("Workspace",back_populates="owner")
 
 class RefreshToken(Base):
     __tablename__ = "refresh_tokens"

@@ -8,6 +8,7 @@ from app.db.database import Base
 from app.models.bookmark import Bookmark
 from app.models.users import User 
 from app.core.security import Settings
+from app.models import workspace
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

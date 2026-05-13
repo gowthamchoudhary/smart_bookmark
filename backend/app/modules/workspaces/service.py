@@ -29,4 +29,4 @@ def delete_workspace(workspace_id:int,db:Session,current_user):
     db.commit()
     return {"message":"successfully deleted the workspace"}
 
-
+def validate_workspace_access()

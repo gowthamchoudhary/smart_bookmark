@@ -12,18 +12,20 @@ from app.modules.bookmarks.schema import BookmarkCreate, BookmarkResponse
 from app.modules.auth.service import get_current_user
 from app.models.workspace import Workspace
 from app.models.bookmark import Bookmark
+from app.modules.workspaces.service import validate_workspace_access
 
 router = APIRouter(tags=["bookmarks"])
 
 
-@router.post("/", response_model=BookmarkResponse)
+@router.post("/{workspace_id}", response_model=BookmarkResponse)
 def create(
+    workspace_id:int,
     data: BookmarkCreate,
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     try:
-        return create_bookmark(current_user, data, db)
+        return create_bookmark(workspace_id,current_user, data, db)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -31,10 +33,9 @@ def create(
 @router.get("/", response_model=list[BookmarkResponse])
 def get_all(workspace_id:int,current_user=Depends(get_current_user), db: Session = Depends(get_db)):
     
-    try:
+
         return get_user_bookmarks(workspace_id,current_user, db)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+   
 
 
 @router.delete("/{workspace_id}/{bookmark_id}")
@@ -85,11 +86,7 @@ def get_bookmarks(
     db:Session=Depends(get_db),
     user = Depends(get_current_user)
 ):
-    db_workspace = db.query(Workspace).filter(Workspace.id==workspace_id).first()
-    if not db_workspace:
-        raise HTTPException(status_code=404,detail="not workspace exists")
-    if db_workspace.user_id!=user.id:
-        raise HTTPException(status_code=403,detail="user is not allowed")
+    db_workspace = validate_workspace_access(workspace_id,user.id,db)  
     
     offset = (page-1)*size
     bookmarks = db.query(Bookmark).filter(Bookmark.workspace_id==workspace_id).offset(offset).limit(size).all()

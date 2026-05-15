@@ -42,4 +42,16 @@ def create_refresh_tokens(data:dict):
     refresh_token= jwt.encode(to_encode,SECRET_KEY,algorithm=ALGORITHM)
    
     return refresh_token
-    
+
+
+def validate_refresh_token(token:str):
+    try:
+        payload = jwt.decode(token,SECRET_KEY,algorithms=[ALGORITHM])
+        if payload.get("type")!="refresh":
+            raise HTTPException(status_code=401,detail="invalid token ")
+        user_id = payload.get("sub")
+        if user_id is None:
+            raise HTTPException(status_code=401,detail="invalid token payload")
+        return payload
+    except JWTError as e:
+

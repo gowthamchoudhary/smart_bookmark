@@ -8,7 +8,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 router = APIRouter(tags=["auth"])
 from app.core.security import decode_token,create_access_token,create_refresh_tokens,get_token_hash
 from app.models.users import RefreshToken
-from datetime import datetime
+from datetime import datetime,timedelta
+from app.core.config import Settings
 
 @router.post("/register")
 def register(user: UserRegister, db: Session = Depends(get_db)):
@@ -50,12 +51,20 @@ def refresh_token(data:RefreshTokenRequest,db:Session=Depends(get_db)):
     if not db_token:
         raise HTTPException(status_code=401,detail="Invalid refresh token")
     if db_token.revoked or db_token.expires_at<datetime.utcnow():
-        raise HTTPException(status_code=401,details="refresh token expired")
-    if db_token.expires_at<datetime.utcnow():
-        raise HTTPException(status_code=401,details="refresh token expired")
+        raise HTTPException(status_code=401,detail="refresh token expired")
+    
+    
+    
+    db_token.revoked=True
     user_id = payload["sub"]
+    
     new_access_token = create_access_token({"sub":user_id,"type":"access"})
     new_refresh_token = create_refresh_tokens({"sub":user_id,"type":"refresh"})
+    db.add(RefreshToken(user_id=user_id,token_hash=get_token_hash(new_refresh_token),expires_at = datetime.utcnow()+timedelta(days=Settings.REFRESH_TOKEN_EXPIRE_DAYS)))
+    db.commit()
+
+    
+
     return {
         "access_token": new_access_token,
         "refresh_token": new_refresh_token

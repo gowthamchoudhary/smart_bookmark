@@ -12,5 +12,5 @@ class Workspace(Base):
     user_id = Column(Integer,ForeignKey("users.id"))
     created_at = Column(DateTime,default=datetime.utcnow())
     owner = relationship("User",back_populates="workspaces")
-    bookmarks = relationship("Bookmark",back_populates="workspace")
+    bookmarks = relationship("Bookmark",back_populates="workspace",cascade="all, delete-orphan")
 

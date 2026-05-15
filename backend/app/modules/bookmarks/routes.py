@@ -30,11 +30,6 @@ def create(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/", response_model=list[BookmarkResponse])
-def get_all(workspace_id:int,current_user=Depends(get_current_user), db: Session = Depends(get_db)):
-    
-
-        return get_user_bookmarks(workspace_id,current_user, db)
    
 
 
@@ -48,6 +43,11 @@ def delete_route(
         delete_bookmark(workspace_id,bookmark_id, current_user, db)
         return {"message": "Deleted successfully"}
    
+@router.get("/", response_model=list[BookmarkResponse])
+def get_all(workspace_id:int,current_user=Depends(get_current_user), db: Session = Depends(get_db)):
+    
+
+        return get_user_bookmarks(workspace_id,current_user, db)
 
 @router.get("/{workspace_id}/search")
 def search_bookmarks(

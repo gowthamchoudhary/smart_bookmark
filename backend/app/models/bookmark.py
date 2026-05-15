@@ -14,4 +14,4 @@ class Bookmark(Base):
     
     created_at = Column(DateTime,default=datetime.utcnow)
     workspace_id = Column(Integer,ForeignKey("workspaces.id"))
-    workspace = relationship("Workspace",back_populates="bookmarks",cascade="all, delete-orphan")
+    workspace = relationship("Workspace",back_populates="bookmarks")

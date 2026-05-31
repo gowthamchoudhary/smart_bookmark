@@ -1,0 +1,64 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  /* border: 2px red solid; */
+  box-sizing: border-box;
+}
+.logo {
+  font-family: "Bungee", sans-serif;
+  font-weight: bolder;
+  color: white;
+  font-size: 25px;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.534);
+}
+#OS_part {
+  font-family: "Playwrite TZ", cursive;
+  font-weight: bold;
+  font-size: 23px;
+}
+.toggle-btn {
+  width: 200px;
+  display: flex;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.127);
+  position: relative;
+  /* overflow: hidden; */
+}
+.toggle-btn button {
+  padding: 6px 15px;
+  outline: none;
+  box-shadow: none;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.727);
+  font-family: "Kumbh Sans", sans-serif;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn button.active {
+  color: black;
+}
+
+.slider {
+  position: absolute;
+
+  top: 4px;
+  left: 4px;
+
+  width: calc(50% - 5px);
+  height: calc(100% - 8px);
+
+  background: white;
+  border-radius: 999px;
+
+  transition: transform 0.3s ease;
+}
+.slider-right {
+  transform: translateX(100%);
+}

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.core.security import get_token_hash, verify_password,create_access_token,decode_token,create_refresh_tokens,get_token_hash
+from app.core.security import get_refresh_token_hash, get_token_hash, verify_password,create_access_token,decode_token,create_refresh_tokens
 from app.models.users import User,RefreshToken
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -27,7 +27,7 @@ def login_user(email:str,password:str,db:Session):
         raise HTTPException(status_code=400,detail="invalid credentials")
     token = create_access_token(data={"sub":str(db_user.id),"type":"access"})
     refresh_token =  create_refresh_tokens(data={"sub":str(db_user.id),"type":"refresh"})
-    hashed_token =get_token_hash(refresh_token)
+    hashed_token = get_refresh_token_hash(refresh_token)
     db.add(RefreshToken(user_id = db_user.id,token_hash=hashed_token,expires_at=datetime.utcnow()+timedelta(days=7),device_info="unknown"))
     db.commit()
     return {"access_token":token,"refresh_token":refresh_token}

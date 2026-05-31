@@ -6,7 +6,7 @@ from app.modules.auth.schema import UserRegister, UserLogin,RefreshTokenRequest
 from app.db.database import get_db
 from fastapi.security import OAuth2PasswordRequestForm
 router = APIRouter(tags=["auth"])
-from app.core.security import decode_token,create_access_token,create_refresh_tokens,get_token_hash
+from app.core.security import decode_token,create_access_token,create_refresh_tokens,get_refresh_token_hash
 from app.models.users import RefreshToken
 from datetime import datetime,timedelta
 from app.core.config import Settings
@@ -26,7 +26,7 @@ def login(form_data:OAuth2PasswordRequestForm=Depends(),db:Session = Depends(get
         tokens = login_user(form_data.username, form_data.password, db)
     
         
-        return {"access_token": tokens.access_token,"refresh_token":tokens.refresh_token, "token_type": "bearer"}
+        return {"access_token": tokens["access_token"],"refresh_token":tokens["refresh_token"], "token_type": "bearer"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -46,7 +46,7 @@ def refresh_token(data:RefreshTokenRequest,db:Session=Depends(get_db)):
         raise HTTPException(status_code=401,detail="invalid token")
     if payload.get("type")!="refresh":
         raise HTTPException(status_code=401,detail="invalid refresh token")
-    hash_token = get_token_hash(data.refresh_token)
+    hash_token = get_refresh_token_hash(data.refresh_token)
     db_token = db.query(RefreshToken).filter(RefreshToken.token_hash==hash_token).first()
     if not db_token:
         raise HTTPException(status_code=401,detail="Invalid refresh token")
@@ -60,7 +60,7 @@ def refresh_token(data:RefreshTokenRequest,db:Session=Depends(get_db)):
     
     new_access_token = create_access_token({"sub":user_id,"type":"access"})
     new_refresh_token = create_refresh_tokens({"sub":user_id,"type":"refresh"})
-    db.add(RefreshToken(user_id=user_id,token_hash=get_token_hash(new_refresh_token),expires_at = datetime.utcnow()+timedelta(days=Settings.REFRESH_TOKEN_EXPIRE_DAYS)))
+    db.add(RefreshToken(user_id=user_id,token_hash=get_refresh_token_hash(new_refresh_token),expires_at = datetime.utcnow()+timedelta(days=Settings.REFRESH_TOKEN_EXPIRE_DAYS)))
     db.commit()
 
     
@@ -71,7 +71,7 @@ def refresh_token(data:RefreshTokenRequest,db:Session=Depends(get_db)):
     }
 @router.post("/logout")
 def logout(data:RefreshTokenRequest,db:Session = Depends(get_db)):
-    hashed_token = get_token_hash(data.refresh_token)
+    hashed_token = get_refresh_token_hash(data.refresh_token)
     db_token = db.query(RefreshToken).filter(RefreshToken.token_hash==hashed_token).first()
     if not db_token:
         raise HTTPException(status_code=401,detail="invalid token")

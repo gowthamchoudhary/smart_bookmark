@@ -1,6 +1,8 @@
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from datetime import datetime,timedelta,timezone
+import hashlib
+import hmac
 
 from app.core.config import Settings
 from fastapi import HTTPException
@@ -11,6 +13,13 @@ def verify_password(plain_password,hashed_password):
     return pwd_context.verify(plain_password,hashed_password)
 def get_token_hash(password):
     return pwd_context.hash(password)   
+
+def get_refresh_token_hash(token: str):
+    return hmac.new(
+        SECRET_KEY.encode(),
+        token.encode(),
+        hashlib.sha256,
+    ).hexdigest()
 
 
 SECRET_KEY = Settings.SECRET_KEY
@@ -45,7 +54,7 @@ def create_refresh_tokens(data:dict):
 
 
 def validate_refresh_token(token:str):
-    try:
+
         payload = jwt.decode(token,SECRET_KEY,algorithms=[ALGORITHM])
         if payload.get("type")!="refresh":
             raise HTTPException(status_code=401,detail="invalid token ")
@@ -53,5 +62,5 @@ def validate_refresh_token(token:str):
         if user_id is None:
             raise HTTPException(status_code=401,detail="invalid token payload")
         return payload
-    except JWTError as e:
+  
 

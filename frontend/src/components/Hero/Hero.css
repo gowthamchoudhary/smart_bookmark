@@ -1,0 +1,189 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.hero {
+  padding: 0;
+  margin: 0;
+  background: #00398f;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 57, 143, 1) 0%,
+    rgba(45, 105, 235, 1) 28%,
+    rgba(175, 247, 250, 1) 100%
+  );
+  min-height: 100vh;
+  width: 100vw;
+  padding: 50px;
+  position: relative;
+  overflow: hidden;
+}
+.center_content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 3;
+}
+.center_main_text {
+  font-size: 58px;
+  font-weight: 700;
+
+  color: white;
+  /* font-family: "Bungee", cursive; */
+
+  /* font-family: "Archivo Black", sans-serif; */
+  /* font-family: "Bungee", cursive; */
+  font-family: "Space Grotesk", sans-serif;
+  /* font-family: "Plus Jakarta Sans", sans-serif; */
+
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.045);
+  line-height: 1.2;
+  letter-spacing: -3px;
+}
+.center_main_text span {
+  font-family: "Bungee", cursive;
+  font-style: italic;
+}
+.sub_main_content {
+  color: rgba(255, 255, 255, 0.623);
+
+  /* font-family: "Space Grotesk", sans-serif; */
+  /* font-family: "Archivo Black", sans-serif; */
+  font-family: "Playwrite TZ", cursive;
+}
+.main_content_btn {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  background: white;
+  border-radius: 18px;
+  padding: 10px 35px;
+  font-size: 20px;
+  box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.296);
+  cursor: pointer;
+}
+.platforms {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.platform-icon {
+  font-size: 40px;
+  color: white;
+  border-radius: 8px;
+  padding: 5px;
+  box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.056);
+}
+.x {
+  fill: rgb(255, 255, 255);
+  background-color: rgb(0, 0, 0);
+}
+.reddit {
+  fill: orangered;
+  background-color: rgb(255, 255, 255);
+}
+.instagram {
+  background: linear-gradient(
+    45deg,
+    #feda75,
+    #fa7e1e,
+    #d62976,
+    #962fbf,
+    #4f5bd5
+  );
+}
+.gmail {
+  background-color: white;
+  width: 40px;
+  height: 40px;
+}
+.youtube {
+  color: red;
+  background-color: white;
+}
+.github {
+  color: black;
+  background-color: white;
+}
+.hero_nodes {
+  z-index: 1;
+  inset: 0;
+  position: absolute;
+}
+.memory_node {
+  position: absolute;
+  background-color: white;
+  width: 230px;
+  padding: 5px;
+  border-radius: 24px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  color: #101828;
+}
+.node_1 {
+  top: 170px;
+  left: 170px;
+  transform: rotate(-6deg);
+  height: 180px;
+}
+
+.node_icon {
+  position: relative;
+  top: -40px;
+  left: -25px;
+
+  display: inline;
+}
+.node_icon .reddit {
+  border-radius: 50%;
+  padding: 0;
+  font-size: 50px;
+}
+.node_1_inner {
+  background-color: #5993db17;
+  border-radius: 15px;
+  padding: 5px;
+}
+.node_reason {
+  background-color: rgba(62, 155, 247, 0.278);
+  border-radius: 12px;
+  margin-top: -35px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: blue;
+  font-family: "Poppins", sans-serif;
+}
+.memory_node h4,
+.memory_node p {
+  margin: 0;
+}
+.node_meta {
+  /* margin-top: 12px; */
+  color: rgba(0, 0, 0, 0.721);
+  font-size: 14px;
+}
+.meta_data {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  top: -40px;
+  left: 20px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  letter-spacing: 1.1px;
+}
+.pin_icon {
+  position: relative;
+  right: -90%;
+  transform: rotate(45deg);
+}
+.reason_content {
+  display: inline;
+}

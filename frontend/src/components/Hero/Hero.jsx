@@ -1,7 +1,10 @@
 import React from "react";
 import TopBar from "../TopBar/TopBar";
-
+import MemoryNode from "./MemoryNode/MemoryNode";
 import "./Hero.css";
+import restaurantImage from "../../assets/restaurants.jpg";
+import pdf from "../../assets/pdf.png";
+import yt_clip from "../../assets/videos/yt_lecture_clip.mp4";
 import {
   FaXTwitter,
   FaGithub,
@@ -9,32 +12,143 @@ import {
   FaReddit,
   FaInstagram,
 } from "react-icons/fa6";
+import { FiArrowRight } from "react-icons/fi";
+import { FaLightbulb } from "react-icons/fa6";
 import { FaThumbtack } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
+import Toothless from "./toothless_inti/Toothless";
 const Hero = () => {
   return (
     <div className="hero">
       <TopBar></TopBar>
+      <Toothless></Toothless>
+      <div className="star star1 "></div>
+      <div className="star star2"></div>
+      <div className="star star3"></div>
+      <div className="star star4"></div>
+      <div className="star star5"></div>
+      <div className="star star6"></div>
+      <div className="star star7"></div>
+      <div className="star star8"></div>
       <div className="hero_nodes">
-        <div className="memory_node node_1">
-          <div className="node_1_inner">
-            <div className="node_icon">
-              <FaReddit className="platform-icon reddit" />
+        <svg className="connection-layer" viewBox="0 0 1600 900">
+          <path
+            className="connection-path"
+            d="M 190 220 C 330 260, 290 390, 100 440"
+          />
+          <path
+            className="connection-path"
+            d="M -70 220 C 60 120, 60 230, 50 660"
+          />
+          <path
+            className="connection-path"
+            d="M 120 450 C 500 500, 450 710, 600 830"
+          />
+          <path
+            className="connection-path"
+            d="M 690 766
+    C 766 650 566 650 766 650, "
+          />
+
+          <path
+            className="connection-path"
+            d="M 1500 210 C 1180 260, 1210 420, 1100 800"
+          />
+
+          <path
+            className="connection-path"
+            d="M 180 610 C 360 560, 480 700, 740 620"
+          />
+          <path
+            className="connection-path"
+            d="
+    M 1260 680
+    C 1120 620,
+      1000 560,
+     850,590
+  "
+          />
+          <path
+            className="connection-path"
+            d="
+    M 1500 620
+    C 1350 560,
+      1250 320,850 590
+  "
+          />
+        </svg>
+        <MemoryNode
+          className="node-1"
+          size="medium"
+          tone="blue"
+          icon={<FaReddit className="reddit" />}
+          title="How I organize my second brain"
+          meta="r/PM · 3mo ago"
+          reason="Great framework for tagging system"
+        />
+
+        <MemoryNode
+          className="node-2"
+          size="small"
+          tone="blue"
+          icon={<FaXTwitter className="x" />}
+          title="AI Agents are the next big shift."
+          meta="12:30 PM · 2d ago"
+          reason="Great thread about architecture"
+        />
+        <MemoryNode
+          className="node-3"
+          size="small"
+          tone="pink"
+          icon={<FaInstagram className="instagram" />}
+          title="Versatile cuisines."
+          meta="12:30 PM · 2d ago"
+          reason="Planning to celebrate my birthday here"
+          image={restaurantImage}
+        />
+        <MemoryNode
+          className="node-4 has-plain-icon"
+          size="small"
+          tone="pink"
+          icon={<img src={pdf} className="pdf icon-plain" alt="" />}
+          title="Attention Is All You Need."
+          meta="(Research Papers)"
+          reason="Important for LLM understand"
+        />
+        <MemoryNode
+          className="node-5"
+          size="small"
+          tone="pink"
+          icon={
+            <img src="/icons/gmail-svgrepo-com.svg" className="gmail" alt="" />
+          }
+          title="Important Newsletter -AI tools weekly"
+          meta="Jun 1,2024"
+          reason="Good list of tools to try"
+        />
+        <MemoryNode
+          className="node-6"
+          size="small"
+          tone="yellow"
+          icon={<FaLightbulb className="note" />}
+          title="Unread product update."
+          meta="Gmail Â· 1d ago"
+          reason="Follow up on launch checklist"
+        />
+        <MemoryNode
+          className="node-7 youtube-node"
+          size="large"
+          tone="green"
+          videoSrc={yt_clip}
+          icon={
+            <div className="curve_icon">
+              <FaYoutube className="youtube " />
             </div>
-            <div className="meta_data">
-              <h4>How I organize my second brain</h4>
-              <p className="node_meta">r/PM . 3mo ago</p>
-            </div>
-            <div className="node_reason">
-              <FaThumbtack size={14} className="pin_icon" />
-              <div className="reason_content">
-                Reason:
-                <br />
-                Great framework for tagging system
-              </div>
-            </div>
-          </div>
-        </div>
+          }
+          title="Unread product update."
+          meta="Gmail Â· 1d ago"
+          reason="Follow up on launch checklist"
+        />
       </div>
       <div className="center_content">
         <div className="center_main_text">
@@ -46,8 +160,10 @@ const Hero = () => {
           workspaces <br /> Search instantly, stay focused, and build your
           personal knowledge hub.
         </div>
-        <button className="main_content_btn">Get Started</button>
-        <div className="platforms">
+        <button className="main_content_btn">
+          Get Started <FiArrowRight className="arrow" />
+        </button>
+        {/* <div className="platforms">
           <FaXTwitter className="platform-icon x" />
           <FaReddit className="platform-icon reddit" />
           <FaInstagram className="platform-icon instagram" />
@@ -58,8 +174,9 @@ const Hero = () => {
           />
           <FaYoutube className="platform-icon youtube" />
           <FaGithub className="platform-icon github" />
-        </div>
+        </div> */}
       </div>
+      <div className="bottom-fade"></div>
     </div>
   );
 };

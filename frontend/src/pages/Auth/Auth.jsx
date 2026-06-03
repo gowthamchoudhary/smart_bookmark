@@ -5,6 +5,13 @@ import "./Auth.css";
 import sub_img from "../../assets/bg_sub.png";
 const Auth = () => {
   const [mode, setMode] = useState("login");
+  const [email,setEmail] = useState("")
+  const [password,setPassword] = useState("")
+  const handleSubmit=async (e) =>{
+    e.preventDefault()
+    // console.log(email,password)
+    const res = await fetch(" ")
+  }
   return (
     <div>
       <div className="background"></div>
@@ -18,12 +25,12 @@ const Auth = () => {
             <button onClick={() => setMode("register")}>Register</button>
           </div>
           <h2>{mode === "login" ? "welcome Back" : "Create Account"}</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             {mode === "register" && (
               <input type="text" placeholder="full name" />
             )}
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Pasword" />
+            <input type="email" value={email} placeholder="Email" onClick={(e)=>setEmail(e.target.value)}/>
+            <input type="password"value={password} placeholder="Pasword" onClick={(e)=>setPassword(e.target.value)}/>
             <button type="submit">
               {mode === "login" ? "Login" : "Register"}
             </button>

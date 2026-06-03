@@ -5,6 +5,7 @@ import "./Hero.css";
 import restaurantImage from "../../assets/restaurants.jpg";
 import pdf from "../../assets/pdf.png";
 import yt_clip from "../../assets/videos/yt_lecture_clip.mp4";
+import { useNavigate } from "react-router-dom";
 import {
   FaXTwitter,
   FaGithub,
@@ -18,6 +19,7 @@ import { FaThumbtack } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 import Toothless from "./toothless_inti/Toothless";
 const Hero = () => {
+  const navigate = useNavigate();
   return (
     <div className="hero">
       <TopBar></TopBar>
@@ -160,7 +162,7 @@ const Hero = () => {
           workspaces <br /> Search instantly, stay focused, and build your
           personal knowledge hub.
         </div>
-        <button className="main_content_btn">
+        <button className="main_content_btn" onClick={() => navigate("/auth")}>
           Get Started <FiArrowRight className="arrow" />
         </button>
         {/* <div className="platforms">

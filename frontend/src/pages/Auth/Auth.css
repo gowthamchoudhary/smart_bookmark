@@ -1,0 +1,159 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.background {
+  position: fixed;
+  inset: 0;
+  background-image: url("../../assets/laptop_resol.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(7px);
+  transform: scale(1.1);
+  z-index: -2;
+}
+
+.background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo_auth {
+  color: black;
+  position: absolute;
+  top: 50px;
+  left: 280px;
+  text-shadow: none;
+  font-weight: 100;
+}
+
+.container_box {
+  width: 450px;
+  height: 650px;
+  background: white;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 6px 0 0 6px;
+}
+
+.sub_img {
+  width: 550px;
+  height: 650px;
+  overflow: hidden;
+}
+
+.sub_img img {
+  width: 500px;
+  height: 650px;
+
+  border-radius: 0 6px 6px 0;
+}
+
+.auth-page {
+  background: transparent;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 25px;
+  margin-top: 70px;
+  margin-left: 25px;
+}
+
+.auth-tabs button {
+  padding: 10px 30px;
+  font-size: 17px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #fff;
+
+  cursor: pointer;
+
+  border-radius: 15px;
+  border: 1px solid #18171c;
+
+  background: linear-gradient(180deg, #312f37 0%, #18171c 100%);
+
+  box-shadow:
+    inset 0 4px 4px rgba(255, 255, 255, 0.15),
+    0 2px 4px rgba(1, 1, 1, 0.15),
+    0 4px 4px rgba(180, 178, 189, 0.2);
+
+  transition: all 0.2s ease;
+  
+}
+.auth-tabs button:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    inset 0 4px 4px rgba(255, 255, 255, 0.2),
+    0 4px 8px rgba(1, 1, 1, 0.2),
+    0 6px 8px rgba(180, 178, 189, 0.25);
+}
+
+.container_box h2 {
+  margin-top: -15px;
+  margin-bottom: 25px;
+  font-family: "Playwrite GB J", cursive;
+  font-size: 40px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form input {
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  font-family: "";
+}
+
+form button {
+  margin-top: 10px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: rgb(16, 70, 247);
+  color: white;
+  cursor: pointer;
+  box-shadow: rgba(68, 162, 234, 0.679);
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 20px;
+}
+.register-option {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 7px;
+  border-radius: 7px;
+  font-size: 17px;
+  color: rgb(0, 0, 0);
+  font-family: "Kumbh Sans", sans-serif;
+  font-weight: bold;
+  /* box-shadow: 0 0 8px 6px rgba(0, 0, 0, 0.137); */
+}
+.footter {
+  margin-top: 50px;
+}
+.footter p {
+  /* font-family: ; */
+  font-family: "Space Grotesk", sans-serif;
+}

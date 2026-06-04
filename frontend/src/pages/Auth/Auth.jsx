@@ -3,15 +3,35 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import "./Auth.css";
 import sub_img from "../../assets/bg_sub.png";
+import { useNavigate } from "react-router-dom";
+import { loginUser, registerUser } from "../../api/authAPI";
 const Auth = () => {
   const [mode, setMode] = useState("login");
-  const [email,setEmail] = useState("")
-  const [password,setPassword] = useState("")
-  const handleSubmit=async (e) =>{
-    e.preventDefault()
-    // console.log(email,password)
-    const res = await fetch(" ")
-  }
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    setLoading(true);
+    setError("");
+    e.preventDefault();
+    try {
+      if (mode === "register") {
+        await registerUser(email, password);
+        setMode("login");
+        setPassword("");
+      } else {
+        await loginUser(email, password);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       <div className="background"></div>
@@ -29,8 +49,20 @@ const Auth = () => {
             {mode === "register" && (
               <input type="text" placeholder="full name" />
             )}
-            <input type="email" value={email} placeholder="Email" onClick={(e)=>setEmail(e.target.value)}/>
-            <input type="password"value={password} placeholder="Pasword" onClick={(e)=>setPassword(e.target.value)}/>
+            <input
+              type="email"
+              value={email}
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              value={password}
+              placeholder="Pasword"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
             <button type="submit">
               {mode === "login" ? "Login" : "Register"}
             </button>
@@ -39,15 +71,25 @@ const Auth = () => {
             <p className="footter">
               doesn't have an Account?
               <span>
-                <button onClick={() => setMode("register")} className="register-option">Register</button>
+                <button
+                  onClick={() => setMode("register")}
+                  className="register-option"
+                >
+                  Register
+                </button>
               </span>
             </p>
           )}
-          {mode==="register" &&(
+          {mode === "register" && (
             <p className="footter">
               Already have an Account?
               <span>
-                <button onClick={() => setMode("login")} className="register-option">login</button>
+                <button
+                  onClick={() => setMode("login")}
+                  className="register-option"
+                >
+                  login
+                </button>
               </span>
             </p>
           )}

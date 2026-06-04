@@ -3,13 +3,21 @@ import "./App.css";
 import Landing from "./pages/Landing/Landing";
 import Login from "./pages/Login/Login";
 import Auth from "./pages/Auth/Auth";
+import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 
 export const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<Auth />} />
-      {/* <Route path="/login" element={<Login />} /> */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };

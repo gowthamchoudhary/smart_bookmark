@@ -25,6 +25,7 @@ const Auth = () => {
         setPassword("");
       } else {
         await loginUser(email, password);
+        navigate("/dashboard");
       }
     } catch (err) {
       setError(err.message);

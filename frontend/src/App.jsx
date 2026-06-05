@@ -4,6 +4,7 @@ import Landing from "./pages/Landing/Landing";
 import Login from "./pages/Login/Login";
 import Auth from "./pages/Auth/Auth";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 export const App = () => {
   return (

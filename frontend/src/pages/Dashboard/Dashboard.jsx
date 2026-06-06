@@ -3,12 +3,17 @@ import "./Dashboard.css";
 
 import { LuSearch } from "react-icons/lu";
 import { PiCommandBold } from "react-icons/pi";
+import Workspace_Add from "../../components/Workspace/Workspace_Add";
+import robot from "../../assets/robot.png";
 
 const Dashboard = () => {
   const [query, setQuery] = useState("");
   return (
     <div className="dashboard-bg">
       <div className="inner-bg">
+        <div className="dashboard_logo logo">
+          Memory<span id="OS_part">OS</span>
+        </div>
         <div className="core-dashboard">
           <div className="top-bar">
             <div className="wish-data">
@@ -32,6 +37,31 @@ const Dashboard = () => {
                 <span>K</span>
               </div>
             </div>
+          </div>
+          <div className="workspace-node">
+            <div className="add_workspace">
+              <div className="plus-btn">+</div>
+              <p>New Workspace</p>
+            </div>
+
+            <Workspace_Add
+              title="AI Reasearch"
+              bookmarks="55 bookmarks"
+              color="pink"
+              image={robot}
+            />
+            <Workspace_Add
+              title="AI Reasearch"
+              bookmarks="55 bookmarks"
+              color="blue"
+              image={robot}
+            />
+            <Workspace_Add
+              title="AI Reasearch"
+              bookmarks="55 bookmarks"
+              color="yellow"
+              image={robot}
+            />
           </div>
         </div>
       </div>

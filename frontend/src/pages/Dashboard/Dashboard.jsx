@@ -5,6 +5,11 @@ import { LuSearch } from "react-icons/lu";
 import { PiCommandBold } from "react-icons/pi";
 import Workspace_Add from "../../components/Workspace/Workspace_Add";
 import robot from "../../assets/robot.png";
+import bulb from "../../assets/bulb.png";
+import palete from "../../assets/pallete.png";
+import { FiChevronRight } from "react-icons/fi";
+
+import Recent_Bookmarks from "../../components/Recent_Bookmarks/Recent_Bookmarks";
 
 const Dashboard = () => {
   const [query, setQuery] = useState("");
@@ -46,23 +51,28 @@ const Dashboard = () => {
 
             <Workspace_Add
               title="AI Reasearch"
-              bookmarks="55 bookmarks"
+              bookmarks="55 "
               color="pink"
               image={robot}
             />
             <Workspace_Add
-              title="AI Reasearch"
-              bookmarks="55 bookmarks"
+              title="Design Ideas"
+              bookmarks="104 "
               color="blue"
-              image={robot}
+              image={palete}
             />
             <Workspace_Add
-              title="AI Reasearch"
-              bookmarks="55 bookmarks"
+              title="Startup Ideas"
+              bookmarks="64 "
               color="yellow"
-              image={robot}
+              image={bulb}
             />
+            <div className="more">
+              {" "}
+              <FiChevronRight />
+            </div>
           </div>
+          <Recent_Bookmarks/>
         </div>
       </div>
     </div>

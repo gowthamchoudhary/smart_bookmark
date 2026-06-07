@@ -1,0 +1,87 @@
+.bookmark {
+  width: 90%;
+  height: 50px;
+  border: 1px solid black;
+  margin: 10px 30px;
+  border-radius: 10px;
+  background-color: #f8f8fa;
+  border: 1.5px solid #e4e4e7;
+  display: flex;
+
+  align-items: center;
+  padding: 10px;
+  gap: 35px;
+}
+.bookmark-icon {
+  height: 35px;
+  width: 35px;
+  box-shadow:
+    1px 1px 2px rgba(46, 45, 45, 0.201),
+    0 0 2px 0.1px rgba(0, 0, 0, 0.199);
+  border-radius: 10px;
+  fill: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.notion {
+  color: black;
+}
+.yt {
+  color: red;
+}
+.git {
+  color: black;
+}
+.yc {
+  color: orangered;
+}
+.bookmark-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bookmark-metadata .title {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+}
+.bookmark-metadata a {
+  font-size: 9px;
+  font-weight: 400;
+  color: orangered;
+  font-family: "Kumbh Sans", sans-serif;
+}
+.workspace {
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  padding: 5px;
+  border-radius: 999px;
+  outline: none;
+  border: none;
+}
+.workspace-orange {
+  background: rgba(243, 152, 114, 0.204);
+  color: rgb(255, 136, 0);
+  /* text-shadow: 0 0 2px black; */
+}
+.workspace-blue {
+  background: rgba(116, 154, 216, 0.311);
+  color: rgb(2, 50, 133);
+}
+.workspace-pink {
+  background: rgba(245, 174, 219, 0.304);
+  color: rgb(255, 0, 43);
+}
+.workspace-green {
+  background: rgba(128, 246, 124, 0.304);
+  color: rgb(0, 139, 32);
+}
+
+.time {
+  color: rgb(94, 94, 94);
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}

@@ -36,6 +36,13 @@ def get_workspace(workspace_id:int, db:Session, current_user):
     )
     return workspace
 
+def update_workspace(workspace_id,name,db,current_user):
+    workspace = validate_workspace_access(workspace_id,current_user.id,db)
+    workspace.name = name
+    db.commit()
+    db.refresh(workspace)
+    return workspace
+
 def validate_workspace_access(workspace_id:int,user_id,db:Session):
     db_workspace = db.query(Workspace).filter(Workspace.id==workspace_id).first()
     if not db_workspace:

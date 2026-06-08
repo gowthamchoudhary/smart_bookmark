@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from app.modules.workspaces.schema import WorkSpaceCreate,WorkSpaceResponse
 from app.modules.auth.service import get_current_user
 from app.db.database import get_db
-from app.modules.workspaces.service import get_user_workspace,create_workspace,delete_workspace,get_workspace
+from app.modules.workspaces.service import get_user_workspace,create_workspace,delete_workspace,get_workspace,update_workspace
+
 
 router = APIRouter(prefix="/workspace",tags=["workspace"])
 
@@ -24,3 +25,7 @@ def get_workspace(workspace_id:int,db:Session=Depends(get_db),current_user=Depen
 @router.delete("/{workspace_id}")
 def delete_workspace_route(workspace_id:int,db:Session = Depends(get_db),current_user = Depends(get_current_user)):
     return delete_workspace(workspace_id,db,current_user)
+
+@router.patch("/{workspace_id}")
+def update_workspace(workspace_id:int,name:str,db:Session=Depends(get_db),current_user=Depends(get_current_user)):
+    return update_workspace(workspace_id,name,db,current_user)

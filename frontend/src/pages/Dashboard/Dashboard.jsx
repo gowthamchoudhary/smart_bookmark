@@ -8,11 +8,12 @@ import robot from "../../assets/robot.png";
 import bulb from "../../assets/bulb.png";
 import palete from "../../assets/pallete.png";
 import { FiChevronRight } from "react-icons/fi";
-import { getWorkspaces } from "../../api/workspace";
+import { getWorkspaces, updateWorkspace } from "../../api/workspace";
 
 import Recent_Bookmarks from "../../components/Recent_Bookmarks/Recent_Bookmarks";
 import { createWorkspace } from "../../api/workspace";
-
+// import { updateWorkspace } from "../../api/workspace";
+import { deleteWorkspace } from "../../api/workspace";
 const Dashboard = () => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -49,6 +50,21 @@ const Dashboard = () => {
       setLoading(false);
     }
   }
+  async function handleUpdateWorkspace(id, name) {
+    const updateWorkspace = await updateWorkspace(id, name);
+    setWorkspaces((current) =>
+      current.map((workspace) =>
+        workspace.id === id ? updateWorkspace : workspace,
+      ),
+    );
+  }
+  async function handleDeleteWorkspace(id) {
+    await deleteWorkspace(id);
+    setWorkspaces((current) =>
+      current.filter((workspace) => workspace.id !== id),
+    );
+  }
+
   return (
     <div className="dashboard-bg">
       <div className="inner-bg">
@@ -90,20 +106,25 @@ const Dashboard = () => {
             {showWorkspaceForm && (
               <form onSubmit={handleCreateWorkspace}>
                 <input
+                className="workspace_input"
                   type="text"
                   value={workspaceName}
                   onChange={(e) => setWorkspaceName(e.target.value)}
                   placeholder="Workspace Name"
                 />
-                <button type="submit">Create</button>
+                <button type="submit" className="workspace-buttons">
+                  Create
+                </button>
                 <button
+                  className="workspace-buttons"
                   type="button"
                   onClick={() => {
                     setShowWorkspaceForm(false);
                     setWorkspaceName("");
                   }}
+                >
                   Cancel
-                ></button>
+                </button>
               </form>
             )}
             {loading && <p className="loading">Loading workspaces.....</p>}
@@ -118,9 +139,11 @@ const Dashboard = () => {
                   key={workspace.id}
                   id={workspace.id}
                   title={workspace.name}
-                  bookmarks="0 "
+                  bookmarks="0"
                   color="pink"
                   image={robot}
+                  onUpdate={handleUpdateWorkspace}
+                  onDelete={handleDeleteWorkspace}
                 />
               ))}
 

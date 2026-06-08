@@ -82,3 +82,44 @@
   top: 10px;
   right: -7px;
 }
+.workspace-options {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.options {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.options-menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.options-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.options-menu button:hover {
+  background: #f2f2f2;
+}
+
+.workspace-error {
+  color: red;
+  font-size: 12px;
+}

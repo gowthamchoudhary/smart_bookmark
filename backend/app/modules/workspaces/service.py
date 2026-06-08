@@ -28,6 +28,13 @@ def delete_workspace(workspace_id:int,db:Session,current_user):
     db.delete(db_workspace)
     db.commit()
     return {"message":"successfully deleted the workspace"}
+def get_workspace(workspace_id:int, db:Session, current_user):
+    workspace = validate_workspace_access(
+        workspace_id,
+        current_user.id,
+        db
+    )
+    return workspace
 
 def validate_workspace_access(workspace_id:int,user_id,db:Session):
     db_workspace = db.query(Workspace).filter(Workspace.id==workspace_id).first()

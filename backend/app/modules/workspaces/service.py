@@ -2,11 +2,11 @@
 from sqlalchemy.orm import Session
 from app.models.workspace import Workspace
 
-from datetime import datetime
+from datetime import datetime,timezone
 from fastapi import HTTPException
 
 def create_workspace(name:str,db:Session ,current_user):
-    db_workspace = Workspace(name=name,user_id=current_user.id,created_at = datetime.utcnow() )
+    db_workspace = Workspace(name=name,user_id=current_user.id,created_at = datetime.now(timezone.utc) )
     db.add(db_workspace)
     db.commit()
     db.refresh(db_workspace)

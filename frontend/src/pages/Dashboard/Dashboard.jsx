@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Dashboard.css";
 
 import { LuSearch } from "react-icons/lu";
@@ -8,11 +8,47 @@ import robot from "../../assets/robot.png";
 import bulb from "../../assets/bulb.png";
 import palete from "../../assets/pallete.png";
 import { FiChevronRight } from "react-icons/fi";
+import { getWorkspaces } from "../../api/workspace";
 
 import Recent_Bookmarks from "../../components/Recent_Bookmarks/Recent_Bookmarks";
+import { createWorkspace } from "../../api/workspace";
 
 const Dashboard = () => {
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [workspaces, setWorkspaces] = useState([]);
+  const [showWorkspaceForm, setShowWorkspaceForm] = useState(false);
+  const [workspaceName, setWorkspaceName] = useState("");
+  useEffect(() => {
+    async function loadWorkspaces() {
+      setError("");
+      setLoading(true);
+      try {
+        const data = await getWorkspaces();
+        setWorkspaces(data);
+      } catch (err) {
+        setError(err.message || "Failed to load workspaces");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadWorkspaces();
+  }, []);
+  async function handleCreateWorkspace() {
+    try {
+      setLoading(true);
+      setError("");
+      const newWorkspace = await createWorkspace(workspaceName.trim());
+      setWorkspaces((current) => [...current, newWorkspace]);
+      setWorkspaceName("");
+      setShowWorkspaceForm(false);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <div className="dashboard-bg">
       <div className="inner-bg">
@@ -34,7 +70,7 @@ const Dashboard = () => {
                 type="text"
                 placeholder="search memory..."
                 value={query}
-                onChange={(e) => setQuesry(e.target.value)}
+                onChange={(e) => setQuery(e.target.value)}
               />
 
               <div className="command-icons">
@@ -44,35 +80,56 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="workspace-node">
-            <div className="add_workspace">
+            <div
+              className="add_workspace"
+              onClick={() => setShowWorkspaceForm(true)}
+            >
               <div className="plus-btn">+</div>
               <p>New Workspace</p>
             </div>
+            {showWorkspaceForm && (
+              <form onSubmit={handleCreateWorkspace}>
+                <input
+                  type="text"
+                  value={workspaceName}
+                  onChange={(e) => setWorkspaceName(e.target.value)}
+                  placeholder="Workspace Name"
+                />
+                <button type="submit">Create</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowWorkspaceForm(false);
+                    setWorkspaceName("");
+                  }}
+                  Cancel
+                ></button>
+              </form>
+            )}
+            {loading && <p className="loading">Loading workspaces.....</p>}
+            {error && <p className="error-message">{error}</p>}
+            {!loading && !error && workspaces.length === 0 && (
+              <p>No workspaces yet.</p>
+            )}
+            {!loading &&
+              !error &&
+              workspaces.map((workspace) => (
+                <Workspace_Add
+                  key={workspace.id}
+                  id={workspace.id}
+                  title={workspace.name}
+                  bookmarks="0 "
+                  color="pink"
+                  image={robot}
+                />
+              ))}
 
-            <Workspace_Add
-              title="AI Reasearch"
-              bookmarks="55 "
-              color="pink"
-              image={robot}
-            />
-            <Workspace_Add
-              title="Design Ideas"
-              bookmarks="104 "
-              color="blue"
-              image={palete}
-            />
-            <Workspace_Add
-              title="Startup Ideas"
-              bookmarks="64 "
-              color="yellow"
-              image={bulb}
-            />
             <div className="more">
               {" "}
               <FiChevronRight />
             </div>
           </div>
-          <Recent_Bookmarks/>
+          <Recent_Bookmarks />
         </div>
       </div>
     </div>

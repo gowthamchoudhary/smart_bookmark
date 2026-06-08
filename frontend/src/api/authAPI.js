@@ -1,52 +1,65 @@
-const BASE_URL = "http://127.0.0.1:8000/auth";
+import apiClient from "./axios";
+
+function getErrorMessage(error, fallback) {
+  return error.response?.data?.detail || error.message || fallback;
+}
 
 export async function registerUser(email, password) {
-  const res = await fetch(`${BASE_URL}/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.detail || "registration failed");
+  try {
+    const { data } = await apiClient.post("/auth/register", {
+      email,
+      password,
+    });
+    return data;
+  } catch (error) {
+    throw new Error(getErrorMessage(error, "Registration failed"), {
+      cause: error,
+    });
   }
-  return data;
 }
 
 export async function loginUser(email, password) {
   const formData = new URLSearchParams();
   formData.append("username", email);
   formData.append("password", password);
-  const res = await fetch(`${BASE_URL}/login`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/x-www-form-urlencoded",
-    },
-    body: formData,
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.detail || "Login failed");
+
+  try {
+    const { data } = await apiClient.post("/auth/login", formData, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    localStorage.setItem("access_token", data.access_token);
+    localStorage.setItem("refresh_token", data.refresh_token);
+    return data;
+  } catch (error) {
+    throw new Error(getErrorMessage(error, "Login failed"), { cause: error });
   }
-  localStorage.setItem("access_token", data.access_token);
-  localStorage.setItem("refresh_token", data.refresh_token);
-  return data;
 }
+
 export async function getme() {
-  const token = localStorage.getItem("access_token");
-  const res = await fetch(`${BASE_URL}/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.detail || "Unauthorization");
+  try {
+    const { data } = await apiClient.get("/auth/me");
+    return data;
+  } catch (error) {
+    throw new Error(getErrorMessage(error, "Unauthorized"), { cause: error });
   }
-  return data;
 }
+
+export async function logoutUser() {
+  const refreshToken = localStorage.getItem("refresh_token");
+
+  try {
+    if (refreshToken) {
+      await apiClient.post("/auth/logout", {
+        refresh_token: refreshToken,
+      });
+    }
+  } finally {
+    logoutLocal();
+  }
+}
+
 export function logoutLocal() {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");

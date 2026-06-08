@@ -6,8 +6,8 @@ import { FaPlus } from "react-icons/fa";
 const Workspace_Add = ({ title, bookmarks, image, color }) => {
   return (
     <div className="workspace_node">
-     
       <div className={`user_workspace workspace-${color}`}>
+        <div className="options">...</div>
         <img src={image} alt="no image" className="workspace-img" />
         <div className="title">{title}</div>
         <div className="bookmarks">{bookmarks} bookmarks</div>

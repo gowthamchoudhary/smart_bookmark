@@ -106,7 +106,7 @@ const Dashboard = () => {
             {showWorkspaceForm && (
               <form onSubmit={handleCreateWorkspace}>
                 <input
-                className="workspace_input"
+                  className="workspace_input"
                   type="text"
                   value={workspaceName}
                   onChange={(e) => setWorkspaceName(e.target.value)}

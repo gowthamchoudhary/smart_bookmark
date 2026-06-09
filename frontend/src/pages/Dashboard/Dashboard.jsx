@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Dashboard.css";
 
 import { LuSearch } from "react-icons/lu";
 import { PiCommandBold } from "react-icons/pi";
 import Workspace_Add from "../../components/Workspace/Workspace_Add";
 import robot from "../../assets/robot.png";
-import bulb from "../../assets/bulb.png";
-import palete from "../../assets/pallete.png";
 import { FiChevronRight } from "react-icons/fi";
 import { getWorkspaces, updateWorkspace } from "../../api/workspace";
 
@@ -20,7 +18,9 @@ const Dashboard = () => {
   const [error, setError] = useState("");
   const [workspaces, setWorkspaces] = useState([]);
   const [showWorkspaceForm, setShowWorkspaceForm] = useState(false);
+  const [creatingWorkspace, setCreatingWorkspace] = useState(false);
   const [workspaceName, setWorkspaceName] = useState("");
+  const workspaceScrollRef = useRef(null);
   useEffect(() => {
     async function loadWorkspaces() {
       setError("");
@@ -36,25 +36,40 @@ const Dashboard = () => {
     }
     loadWorkspaces();
   }, []);
-  async function handleCreateWorkspace() {
+  async function handleCreateWorkspace(event) {
+    event.preventDefault();
+    const trimmedName = workspaceName.trim();
+
+    if (!trimmedName) {
+      setError("Workspace name is required");
+      return;
+    }
+
     try {
-      setLoading(true);
+      setCreatingWorkspace(true);
       setError("");
-      const newWorkspace = await createWorkspace(workspaceName.trim());
+      const newWorkspace = await createWorkspace(trimmedName);
       setWorkspaces((current) => [...current, newWorkspace]);
       setWorkspaceName("");
       setShowWorkspaceForm(false);
+
+      requestAnimationFrame(() => {
+        workspaceScrollRef.current?.scrollTo({
+          left: workspaceScrollRef.current.scrollWidth,
+          behavior: "smooth",
+        });
+      });
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setCreatingWorkspace(false);
     }
   }
   async function handleUpdateWorkspace(id, name) {
-    const updateWorkspace = await updateWorkspace(id, name);
+    const updatedWorkspace = await updateWorkspace(id, name);
     setWorkspaces((current) =>
       current.map((workspace) =>
-        workspace.id === id ? updateWorkspace : workspace,
+        workspace.id === id ? updatedWorkspace : workspace,
       ),
     );
   }
@@ -95,63 +110,88 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="workspace-node">
-            <div
-              className="add_workspace"
-              onClick={() => setShowWorkspaceForm(true)}
-            >
-              <div className="plus-btn">+</div>
-              <p>New Workspace</p>
-            </div>
-            {showWorkspaceForm && (
-              <form onSubmit={handleCreateWorkspace}>
-                <input
-                  className="workspace_input"
-                  type="text"
-                  value={workspaceName}
-                  onChange={(e) => setWorkspaceName(e.target.value)}
-                  placeholder="Workspace Name"
-                />
-                <button type="submit" className="workspace-buttons">
-                  Create
-                </button>
-                <button
-                  className="workspace-buttons"
-                  type="button"
-                  onClick={() => {
-                    setShowWorkspaceForm(false);
-                    setWorkspaceName("");
-                  }}
-                >
-                  Cancel
-                </button>
-              </form>
-            )}
-            {loading && <p className="loading">Loading workspaces.....</p>}
-            {error && <p className="error-message">{error}</p>}
-            {!loading && !error && workspaces.length === 0 && (
-              <p>No workspaces yet.</p>
-            )}
-            {!loading &&
-              !error &&
-              workspaces.map((workspace) => (
-                <Workspace_Add
-                  key={workspace.id}
-                  id={workspace.id}
-                  title={workspace.name}
-                  bookmarks="0"
-                  color="pink"
-                  image={robot}
-                  onUpdate={handleUpdateWorkspace}
-                  onDelete={handleDeleteWorkspace}
-                />
-              ))}
+          <div className="workspace-section">
+            <div className="workspace-add-control">
+              <div
+                className="add_workspace"
+                onClick={() => setShowWorkspaceForm(true)}
+              >
+                <div className="plus-btn">+</div>
+                <p>New Workspace</p>
+              </div>
 
-            <div className="more">
-              {" "}
-              <FiChevronRight />
+              {showWorkspaceForm && (
+                <form
+                  className="workspace-form"
+                  onSubmit={handleCreateWorkspace}
+                >
+                  <input
+                    className="workspace_input"
+                    type="text"
+                    value={workspaceName}
+                    onChange={(e) => setWorkspaceName(e.target.value)}
+                    placeholder="Workspace Name"
+                    autoFocus
+                    disabled={creatingWorkspace}
+                  />
+                  <button
+                    type="submit"
+                    className="workspace-buttons"
+                    disabled={creatingWorkspace}
+                  >
+                    {creatingWorkspace ? "Creating..." : "Create"}
+                  </button>
+                  <button
+                    className="workspace-buttons"
+                    type="button"
+                    disabled={creatingWorkspace}
+                    onClick={() => {
+                      setShowWorkspaceForm(false);
+                      setWorkspaceName("");
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </form>
+              )}
             </div>
+
+            <div className="workspace-scroll" ref={workspaceScrollRef}>
+              {!loading &&
+                workspaces.map((workspace) => (
+                  <Workspace_Add
+                    key={workspace.id}
+                    id={workspace.id}
+                    title={workspace.name}
+                    bookmarks="0"
+                    color="pink"
+                    image={robot}
+                    onUpdate={handleUpdateWorkspace}
+                    onDelete={handleDeleteWorkspace}
+                  />
+                ))}
+            </div>
+
+            <button
+              type="button"
+              className="more"
+              aria-label="Scroll workspaces right"
+              onClick={() =>
+                workspaceScrollRef.current?.scrollBy({
+                  left: 238,
+                  behavior: "smooth",
+                })
+              }
+            >
+              <FiChevronRight />
+            </button>
           </div>
+
+          {loading && <p className="loading">Loading workspaces.....</p>}
+          {error && <p className="error-message">{error}</p>}
+          {!loading && workspaces.length === 0 && (
+            <p>No workspaces yet.</p>
+          )}
           <Recent_Bookmarks />
         </div>
       </div>

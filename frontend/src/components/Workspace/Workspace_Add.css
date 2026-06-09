@@ -1,6 +1,8 @@
 .user_workspace {
   height: 175px;
   width: 220px;
+  box-sizing: border-box;
+  flex: 0 0 220px;
   /* background: #f9f9f8;/ */
   border-radius: 20px;
   position: relative;
@@ -10,14 +12,14 @@
     inset 0 1px 2px rgba(0, 0, 0, 0.093),
     inset 0 0 2px 1px #faf9f8,
     0 1px 2px rgba(0, 0, 0, 0.026);
-  margin-top: 25px;
+  margin: 0;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   border: 1px solid rgba(128, 128, 128, 0.058);
   flex-direction: column;
   border: 1px solid rgba(128, 128, 128, 0.058);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 .workspace-blue {
   background-color: #ebf0f1;
@@ -45,7 +47,7 @@
 }
 .workspace_node {
   display: flex;
-  gap: 20px;
+  flex: 0 0 220px;
 }
 .user_workspace img {
   height: 50px;

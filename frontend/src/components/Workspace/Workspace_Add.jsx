@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Workspace_Add.css";
-// import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { FaPlus } from "react-icons/fa";
-import { deleteWorkspace } from "../../api/workspace";
 
 const Workspace_Add = ({
   title,

@@ -4,8 +4,7 @@ import "./Workspace_Add.css";
 const Workspace_Add = ({
   title,
   bookmarks,
-  image,
-  color,
+
   id,
   onUpdate,
   onDelete,
@@ -48,7 +47,7 @@ const Workspace_Add = ({
   }
   return (
     <div className="workspace_node">
-      <div className={`user_workspace workspace-${color}`}>
+      <div className={`user_workspace`}>
         {/* <div className="options">...</div> */}
         <div className="workspace-options">
           <button
@@ -78,7 +77,7 @@ const Workspace_Add = ({
             </div>
           )}
         </div>
-        <img src={image} alt="no image" className="workspace-img" />
+
         {isEditing ? (
           <form onSubmit={handleUpdate}>
             <input

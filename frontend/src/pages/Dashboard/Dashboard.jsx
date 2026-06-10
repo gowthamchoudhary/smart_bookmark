@@ -164,8 +164,6 @@ const Dashboard = () => {
                     id={workspace.id}
                     title={workspace.name}
                     bookmarks="0"
-                    color="pink"
-                    image={robot}
                     onUpdate={handleUpdateWorkspace}
                     onDelete={handleDeleteWorkspace}
                   />
@@ -189,9 +187,7 @@ const Dashboard = () => {
 
           {loading && <p className="loading">Loading workspaces.....</p>}
           {error && <p className="error-message">{error}</p>}
-          {!loading && workspaces.length === 0 && (
-            <p>No workspaces yet.</p>
-          )}
+          {!loading && workspaces.length === 0 && <p>No workspaces yet.</p>}
           <Recent_Bookmarks />
         </div>
       </div>

@@ -1,3 +1,14 @@
+html:has(.dashboard-bg),
+body:has(.dashboard-bg) {
+  scrollbar-width: none;
+}
+
+html:has(.dashboard-bg)::-webkit-scrollbar,
+body:has(.dashboard-bg)::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 .dashboard-bg {
   background-color: #fafafa;
 

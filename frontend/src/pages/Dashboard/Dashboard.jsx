@@ -170,7 +170,7 @@ const Dashboard = () => {
                 ))}
             </div>
 
-            <button
+            {/* <button
               type="button"
               className="more"
               aria-label="Scroll workspaces right"
@@ -182,7 +182,7 @@ const Dashboard = () => {
               }
             >
               <FiChevronRight />
-            </button>
+            </button> */}
           </div>
 
           {loading && <p className="loading">Loading workspaces.....</p>}

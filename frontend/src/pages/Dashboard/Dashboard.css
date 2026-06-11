@@ -6,13 +6,10 @@
   width: 100%;
 
   min-height: 100vh;
-
-  /* position: absolute; */
-  /* top: 0px;
-  left: 0px; */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 2.5vh 0;
   box-sizing: border-box;
 }
 .inner-bg {
@@ -278,7 +275,7 @@
 }
 .bookmark-section {
   display: flex;
-  height: 100%;
+  align-items: stretch;
   width: 100%;
   gap: 15px;
 }

@@ -4,8 +4,6 @@ import "./Dashboard.css";
 import { LuSearch } from "react-icons/lu";
 import { PiCommandBold } from "react-icons/pi";
 import Workspace_Add from "../../components/Workspace/Workspace_Add";
-import robot from "../../assets/robot.png";
-import { FiChevronRight } from "react-icons/fi";
 import { getWorkspaces, updateWorkspace } from "../../api/workspace";
 
 import Recent_Bookmarks from "../../components/Recent_Bookmarks/Recent_Bookmarks";
@@ -21,6 +19,7 @@ const Dashboard = () => {
   const [showWorkspaceForm, setShowWorkspaceForm] = useState(false);
   const [creatingWorkspace, setCreatingWorkspace] = useState(false);
   const [workspaceName, setWorkspaceName] = useState("");
+  const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
   const workspaceScrollRef = useRef(null);
   useEffect(() => {
     async function loadWorkspaces() {
@@ -190,8 +189,11 @@ const Dashboard = () => {
           {error && <p className="error-message">{error}</p>}
           {!loading && workspaces.length === 0 && <p>No workspaces yet.</p>}
           <div className="bookmark-section">
-            <Recent_Bookmarks />
-            <CreateBookmark />
+            <Recent_Bookmarks refreshKey={bookmarkRefreshKey} />
+            <CreateBookmark
+              workspaces={workspaces}
+              onCreated={() => setBookmarkRefreshKey((current) => current + 1)}
+            />
           </div>
         </div>
       </div>

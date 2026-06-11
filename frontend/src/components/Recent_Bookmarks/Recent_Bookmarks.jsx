@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Recent_Bookmarks.css";
-import { FiChevronRight } from "react-icons/fi";
-import { LuList } from "react-icons/lu";
 import Bookmarks from "./Bookmarks/Bookmarks";
 import { getBookmarks } from "../../api/bookmark";
 import bookmark_icon from "../../assets/bookmark.png";
 
-const Recent_Bookmarks = () => {
+const Recent_Bookmarks = ({ refreshKey = 0 }) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,32 +23,19 @@ const Recent_Bookmarks = () => {
       }
     }
     loadBookmarks();
-  }, []);
+  }, [refreshKey]);
 
   return (
     <div className="recent_bookmarks">
       <div className="topbar_bookmarks">
         <p>Recent Bookmarks</p>
-        <div className="right_topbar">
-          <div className="dropDown">
-            Recently Added{" "}
-            <span>
-              <FiChevronRight />
-            </span>
-          </div>
-          <div className="options">
-            <div>
-              <LuList />
-            </div>
-          </div>
-        </div>
       </div>
       {loading && !error && (
         <div className="loading-status">Loading the Bookmarks</div>
       )}
       {!loading && !error && bookmarks.length === 0 && (
         <div className="no-bookmarks">
-          <img src={bookmark_icon} />
+          <img src={bookmark_icon} alt="" />
           No bookmarks created
         </div>
       )}

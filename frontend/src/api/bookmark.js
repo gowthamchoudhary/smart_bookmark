@@ -1,6 +1,6 @@
 import apiClient from "./axios";
 
-export async function createBookmark(workspaceId, title, note, url) {
+export async function createBookmark(workspaceId, title, url, note = null) {
   const { data } = await apiClient.post(`/bookmarks/${workspaceId}`, {
     workspace_id: workspaceId,
     title,

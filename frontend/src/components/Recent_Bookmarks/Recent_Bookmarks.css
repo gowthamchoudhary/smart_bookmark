@@ -1,6 +1,6 @@
 .recent_bookmarks {
   width: 60%;
-  height: 100%;
+  height: auto;
   /* border: 2px solid black; */
   box-shadow:
     inset 1px -1px 7px rgb(245, 244, 244),

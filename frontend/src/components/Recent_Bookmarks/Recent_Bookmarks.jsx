@@ -4,6 +4,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { LuList } from "react-icons/lu";
 import Bookmarks from "./Bookmarks/Bookmarks";
 import { getBookmarks } from "../../api/bookmark";
+import bookmark_icon from "../../assets/bookmark.png";
 
 const Recent_Bookmarks = () => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -48,7 +49,10 @@ const Recent_Bookmarks = () => {
         <div className="loading-status">Loading the Bookmarks</div>
       )}
       {!loading && !error && bookmarks.length === 0 && (
-        <div className="no-bookmarks">No bookmarks created</div>
+        <div className="no-bookmarks">
+          <img src={bookmark_icon} />
+          No bookmarks created
+        </div>
       )}
       {error && <div className="error">{error}</div>}
       {!loading &&

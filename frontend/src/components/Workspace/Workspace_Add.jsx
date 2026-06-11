@@ -79,21 +79,28 @@ const Workspace_Add = ({
         </div>
 
         {isEditing ? (
-          <form onSubmit={handleUpdate}>
+          <form className="workspace-edit-form" onSubmit={handleUpdate}>
             <input
+              className="workspace-edit-input"
               value={name}
               onChange={(event) => setName(event.target.value)}
               disabled={loading}
               autoFocus
             />
 
-            <button type="submit" disabled={loading}>
-              Save
-            </button>
+            <div className="workspace-edit-actions">
+              <button className="save-button" type="submit" disabled={loading}>
+                {loading ? "Saving..." : "Save"}
+              </button>
 
-            <button type="button" onClick={() => setIsEditing(false)}>
-              Cancel
-            </button>
+              <button
+                className="cancel-button"
+                type="button"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         ) : (
           <div className="title">{title}</div>

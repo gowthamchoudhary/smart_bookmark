@@ -1,0 +1,33 @@
+.add-new-bookmark-main {
+  height: 100%;
+  width: 40%;
+  border: 1px solid black;
+  margin-top: 20px;
+  box-shadow:
+    inset 1px -1px 7px rgb(245, 244, 244),
+    0 0 2px 0.1px rgba(0, 0, 0, 0.199);
+  border-radius: 22px;
+  border: 1px solid rgba(128, 128, 128, 0.34);
+  background-color: #fcfcfe;
+}
+.add-new-bookmark-main .top-section {
+  display: flex;
+  margin: 20px;
+
+  height: 45px;
+  box-sizing: border-box;
+  padding: 5px;
+  align-items: center;
+  gap: 20px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+}
+.bookmark-ping {
+  color: orangered;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow:
+    inset 1px -1px 7px rgb(245, 244, 244),
+    0 0 2px 0.1px rgba(0, 0, 0, 0.199);
+  padding: 5px;
+}

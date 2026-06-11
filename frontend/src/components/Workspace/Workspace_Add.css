@@ -99,16 +99,18 @@
   background: transparent;
   cursor: pointer;
   font-family: "Poppins", sans-serif;
+  transition: border-radius 0.09s ease-out;
 }
 
 .options-menu button:hover {
-  background: #f2f2f2;
-  border-radius: 25px;
-  border: 1px solid grey;
+  background: #007fff;
+  color: white;
+  border-radius: 18px;
+  border: 1px solid rgb(255, 255, 255);
   box-shadow:
-    inset 0 2px 4px white,
-    inset 0 1px 1px rgba(0, 0, 0, 0.632);
-} 
+    inset 0 1px 2px rgba(255, 255, 255, 0.353),
+    inset 0 1px 1px rgba(19, 106, 229, 0.445);
+}
 
 .workspace-error {
   color: red;

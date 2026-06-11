@@ -12,6 +12,7 @@ import Recent_Bookmarks from "../../components/Recent_Bookmarks/Recent_Bookmarks
 import { createWorkspace } from "../../api/workspace";
 // import { updateWorkspace } from "../../api/workspace";
 import { deleteWorkspace } from "../../api/workspace";
+import CreateBookmark from "../../components/CreateBookmark/CreateBookmark";
 const Dashboard = () => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -188,7 +189,10 @@ const Dashboard = () => {
           {loading && <p className="loading">Loading workspaces.....</p>}
           {error && <p className="error-message">{error}</p>}
           {!loading && workspaces.length === 0 && <p>No workspaces yet.</p>}
-          <Recent_Bookmarks />
+          <div className="bookmark-section">
+            <Recent_Bookmarks />
+            <CreateBookmark />
+          </div>
         </div>
       </div>
     </div>

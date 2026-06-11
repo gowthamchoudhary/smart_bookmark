@@ -64,3 +64,16 @@
     display: flex;
     gap: 20px;
 }
+
+.no-bookmarks {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #71717a;
+  font-family: "Inter", sans-serif;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  text-align: center;
+}

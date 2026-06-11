@@ -10,7 +10,7 @@ class Bookmark(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String,nullable=False)
     url = Column(String,nullable=False)
-    note = Column(String,nullable=False)
+    note = Column(String, nullable=True)
     
     created_at = Column(DateTime,default=datetime.utcnow)
     workspace_id = Column(Integer,ForeignKey("workspaces.id"))

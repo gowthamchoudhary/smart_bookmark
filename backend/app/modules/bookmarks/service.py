@@ -16,10 +16,14 @@ def create_bookmark(workspace_id,user,data,db:Session):
 
 
 
-def get_user_bookmarks(workspace_id,user,db:Session):
-   
-    db_workspace = validate_workspace_access(workspace_id,user.id,db)  
-    return db.query(Bookmark).filter(Bookmark.workspace_id==db_workspace.id).all()
+def get_user_bookmarks(user, db: Session):
+    return (
+        db.query(Bookmark)
+        .join(Workspace)
+        .filter(Workspace.user_id == user.id)
+        .order_by(Bookmark.created_at.desc())
+        .all()
+    )
 
 
 

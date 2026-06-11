@@ -1,4 +1,3 @@
-import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 import "./Bookmarks.css";
 const Bookmarks = ({
@@ -15,7 +14,12 @@ const Bookmarks = ({
       <div className={`bookmark-icon ${class_Name}`}>{icon}</div>
       <div className="bookmark-metadata">
         <div className="title">{title}</div>
-        <a href={link} className="bookmark-url">
+        <a
+          href={link}
+          className="bookmark-url"
+          target="_blank"
+          rel="noreferrer"
+        >
           {link}
         </a>
       </div>

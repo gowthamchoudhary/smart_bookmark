@@ -1,12 +1,31 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import "./Recent_Bookmarks.css";
 import { FiChevronRight } from "react-icons/fi";
-import { FiMoreVertical } from "react-icons/fi";
 import { LuList } from "react-icons/lu";
 import Bookmarks from "./Bookmarks/Bookmarks";
+import { getBookmarks } from "../../api/bookmark";
 
-import { SiNotion, SiYoutube, SiGithub, SiYcombinator } from "react-icons/si";
 const Recent_Bookmarks = () => {
+  const [bookmarks, setBookmarks] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function loadBookmarks() {
+      setLoading(true);
+      setError("");
+      try {
+        const data = await getBookmarks();
+        setBookmarks(data);
+      } catch (err) {
+        setError(err.message || "Failed to load bookmarks");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBookmarks();
+  }, []);
+
   return (
     <div className="recent_bookmarks">
       <div className="topbar_bookmarks">
@@ -25,42 +44,22 @@ const Recent_Bookmarks = () => {
           </div>
         </div>
       </div>
-      <Bookmarks
-        title="Building a second brain with Para method"
-        link="https://www.notion.com/"
-        icon={<SiNotion />}
-        workspace="Productivity"
-        time="2h ago"
-        class_Name="notion"
-        color="green"
-      />
-      <Bookmarks
-        title="Building a second brain with Para method"
-        link="https://www.notion.com/"
-        icon={<SiYoutube />}
-        workspace="Productivity"
-        class_Name="yt"
-        time="2h ago"
-        color="blue"
-      />
-      <Bookmarks
-        title="Building a second brain with Para method"
-        link="https://www.notion.com/"
-        icon={<SiGithub />}
-        workspace="Productivity"
-        class_Name="git"
-        time="2h ago"
-        color="pink"
-      />
-      <Bookmarks
-        title="Building a second brain with Para method"
-        link="https://www.notion.com/"
-        class_Name="yc"
-        icon={<SiYcombinator />}
-        workspace="Productivity"
-        time="2h ago"
-        color="orange"
-      />
+      {loading && !error && (
+        <div className="loading-status">Loading the Bookmarks</div>
+      )}
+      {!loading && !error && bookmarks.length === 0 && (
+        <div className="no-bookmarks">No bookmarks created</div>
+      )}
+      {error && <div className="error">{error}</div>}
+      {!loading &&
+        !error &&
+        bookmarks.map((bookmark) => (
+          <Bookmarks
+            key={bookmark.id}
+            title={bookmark.title}
+            link={bookmark.url}
+          />
+        ))}
     </div>
   );
 };

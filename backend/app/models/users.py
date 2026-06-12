@@ -7,6 +7,8 @@ class User(Base):
     __tablename__="users"
     id=Column(Integer,primary_key=True,index=True)
     email=Column(String,unique=True,index=True,nullable=False)
+    username=Column(String,unique=True,index=True,nullable=False)
+    profile_picture=Column(String,nullable=True)
     password=Column(String)
     refresh_tokens = relationship("RefreshToken",back_populates="user",cascade="all,delete-orphan")
     workspaces = relationship("Workspace",back_populates="owner")

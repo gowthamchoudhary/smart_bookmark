@@ -42,7 +42,7 @@ const Recent_Bookmarks = ({ refreshKey = 0, workspaces = [] }) => {
       {error && <div className="error">{error}</div>}
       {!loading &&
         !error &&
-        bookmarks.map((bookmark) => (
+        bookmarks.slice(0, 10).map((bookmark) => (
           <Bookmarks
             key={bookmark.id}
             title={bookmark.title}

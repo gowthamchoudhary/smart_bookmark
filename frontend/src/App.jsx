@@ -1,10 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Landing from "./pages/Landing/Landing";
-import Login from "./pages/Login/Login";
 import Auth from "./pages/Auth/Auth";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import Workspaces from "./pages/Workspaces/Workspaces";
 
 export const App = () => {
   return (
@@ -16,6 +16,14 @@ export const App = () => {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/workspace/:workspaceId"
+        element={
+          <ProtectedRoute>
+            <Workspaces />
           </ProtectedRoute>
         }
       />

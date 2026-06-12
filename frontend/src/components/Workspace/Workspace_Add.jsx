@@ -1,14 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Workspace_Add.css";
 
-const Workspace_Add = ({
-  title,
-  bookmarks,
-
-  id,
-  onUpdate,
-  onDelete,
-}) => {
+const Workspace_Add = ({ title, bookmarks, id, onUpdate, onDelete }) => {
+  const navigate = useNavigate();
   const [showOptions, setShowOptions] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(title);
@@ -45,15 +40,22 @@ const Workspace_Add = ({
       setLoading(false);
     }
   }
+
+  function openWorkspace() {
+    navigate(`/workspace/${id}`);
+  }
+
   return (
     <div className="workspace_node">
-      <div className={`user_workspace`}>
-        {/* <div className="options">...</div> */}
+      <div className="user_workspace" id={id} onClick={openWorkspace}>
         <div className="workspace-options">
           <button
             type="button"
             className="options"
-            onClick={() => setShowOptions(!showOptions)}
+            onClick={(event) => {
+              event.stopPropagation();
+              setShowOptions(!showOptions);
+            }}
           >
             ...
           </button>
@@ -62,7 +64,8 @@ const Workspace_Add = ({
             <div className="options-menu">
               <button
                 type="button"
-                onClick={() => {
+                onClick={(event) => {
+                  event.stopPropagation();
                   setName(title);
                   setIsEditing(true);
                   setShowOptions(false);
@@ -71,7 +74,13 @@ const Workspace_Add = ({
                 Update
               </button>
 
-              <button type="button" onClick={handleDelete}>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleDelete();
+                }}
+              >
                 Delete
               </button>
             </div>
@@ -79,7 +88,11 @@ const Workspace_Add = ({
         </div>
 
         {isEditing ? (
-          <form className="workspace-edit-form" onSubmit={handleUpdate}>
+          <form
+            className="workspace-edit-form"
+            onClick={(event) => event.stopPropagation()}
+            onSubmit={handleUpdate}
+          >
             <input
               className="workspace-edit-input"
               value={name}

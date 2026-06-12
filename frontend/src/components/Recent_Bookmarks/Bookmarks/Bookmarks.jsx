@@ -1,17 +1,8 @@
 import { BsThreeDots } from "react-icons/bs";
 import "./Bookmarks.css";
-const Bookmarks = ({
-  icon,
-  title,
-  link,
-  workspace,
-  time,
-  color,
-  class_Name,
-}) => {
+const Bookmarks = ({ title, link, workspace }) => {
   return (
     <div className="bookmark">
-      <div className={`bookmark-icon ${class_Name}`}>{icon}</div>
       <div className="bookmark-metadata">
         <div className="title">{title}</div>
         <a
@@ -23,11 +14,7 @@ const Bookmarks = ({
           {link}
         </a>
       </div>
-      <div className={`workspace workspace-${color}`}>{workspace}</div>
-      <div className="time">{time}</div>
-      <div className="option">
-        <BsThreeDots />
-      </div>
+      <div className={`workspace workspace`}>{workspace}</div>
     </div>
   );
 };

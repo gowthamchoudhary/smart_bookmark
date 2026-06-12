@@ -6,9 +6,14 @@ from app.modules.bookmarks.service import (
     create_bookmark,
     get_user_bookmarks,
     delete_bookmark,
+    update_bookmark,
     search_bookmark,
 )
-from app.modules.bookmarks.schema import BookmarkCreate, BookmarkResponse
+from app.modules.bookmarks.schema import (
+    BookmarkCreate,
+    BookmarkResponse,
+    BookmarkUpdate,
+)
 from app.modules.auth.service import get_current_user
 from app.models.workspace import Workspace
 from app.models.bookmark import Bookmark
@@ -42,6 +47,25 @@ def delete_route(
 ):
         delete_bookmark(workspace_id,bookmark_id, current_user, db)
         return {"message": "Deleted successfully"}
+
+@router.patch(
+    "/{workspace_id}/{bookmark_id}",
+    response_model=BookmarkResponse,
+)
+def update_route(
+    workspace_id:int,
+    bookmark_id:int,
+    data:BookmarkUpdate,
+    current_user=Depends(get_current_user),
+    db:Session=Depends(get_db),
+):
+    return update_bookmark(
+        workspace_id,
+        bookmark_id,
+        current_user,
+        data,
+        db,
+    )
    
 @router.get("/", response_model=list[BookmarkResponse])
 def get_all(

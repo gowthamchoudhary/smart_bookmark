@@ -4,7 +4,12 @@ import Bookmarks from "./Bookmarks/Bookmarks";
 import { getBookmarks } from "../../api/bookmark";
 import bookmark_icon from "../../assets/bookmark.png";
 
-const Recent_Bookmarks = ({ refreshKey = 0, workspaces = [] }) => {
+const Recent_Bookmarks = ({
+  refreshKey = 0,
+  workspaces = [],
+  onBookmarkEdit,
+  onBookmarkDeleted,
+}) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,13 +50,23 @@ const Recent_Bookmarks = ({ refreshKey = 0, workspaces = [] }) => {
         bookmarks.slice(0, 10).map((bookmark) => (
           <Bookmarks
             key={bookmark.id}
+            id={bookmark.id}
+            workspaceId={bookmark.workspace_id}
             title={bookmark.title}
             link={bookmark.url}
+            note={bookmark.note}
             workspace={
               workspaces.find(
                 (workspace) => workspace.id === bookmark.workspace_id,
               )?.name || "Unknown workspace"
             }
+            onEdit={onBookmarkEdit}
+            onDeleted={(bookmarkId, workspaceId) => {
+              setBookmarks((current) =>
+                current.filter((item) => item.id !== bookmarkId),
+              );
+              onBookmarkDeleted?.(workspaceId);
+            }}
           />
         ))}
     </div>

@@ -7,6 +7,11 @@ class BookmarkCreate(BaseModel):
     url:HttpUrl
     note:Optional[str] = None
     workspace_id:int
+
+class BookmarkUpdate(BaseModel):
+    title:str
+    note:Optional[str] = None
+
 class BookmarkResponse(BaseModel):
     id:int
     title:str

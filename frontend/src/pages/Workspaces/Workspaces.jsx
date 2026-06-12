@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getWorkspaceById } from "../../api/workspace";
 import { getWorkspaceBookmarks } from "../../api/bookmark";
 import Bookmarks from "../../components/Recent_Bookmarks/Bookmarks/Bookmarks";
@@ -7,6 +7,7 @@ import "./Workspaces.css";
 
 const Workspaces = () => {
   const { workspaceId } = useParams();
+  const navigate = useNavigate();
   const [workspace, setWorkspace] = useState(null);
   const [bookmarks, setBookmarks] = useState([]);
   const [page, setPage] = useState(1);
@@ -52,9 +53,22 @@ const Workspaces = () => {
           {bookmarks.map((bookmark) => (
             <Bookmarks
               key={bookmark.id}
+              id={bookmark.id}
+              workspaceId={Number(workspaceId)}
               title={bookmark.title}
               link={bookmark.url}
+              note={bookmark.note}
               workspace={workspace?.name}
+              onEdit={(editingBookmark) =>
+                navigate("/dashboard", {
+                  state: { editingBookmark },
+                })
+              }
+              onDeleted={(bookmarkId) =>
+                setBookmarks((current) =>
+                  current.filter((item) => item.id !== bookmarkId),
+                )
+              }
             />
           ))}
         </div>

@@ -103,6 +103,17 @@
   opacity: 0.6;
 }
 
+.bookmark-input .cancel-bookmark-edit {
+  width: fit-content;
+  justify-self: center;
+  margin-top: 0;
+  padding: 8px 22px;
+  border: 1px solid #18171c;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #312f37 0%, #18171c 100%);
+  font-size: 13px;
+}
+
 .bookmark-form-error {
   margin: 0;
   color: #dc2626;

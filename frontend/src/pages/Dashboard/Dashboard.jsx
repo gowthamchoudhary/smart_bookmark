@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 import { LuSearch } from "react-icons/lu";
@@ -13,6 +14,8 @@ import { deleteWorkspace } from "../../api/workspace";
 import CreateBookmark from "../../components/CreateBookmark/CreateBookmark";
 import Profile from "../../components/Profile/Profile";
 const Dashboard = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -22,6 +25,9 @@ const Dashboard = () => {
   const [workspaceName, setWorkspaceName] = useState("");
   const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
   const [username, setUsername] = useState("");
+  const [editingBookmark, setEditingBookmark] = useState(
+    location.state?.editingBookmark || null,
+  );
   const workspaceScrollRef = useRef(null);
   const handleUserLoaded = useCallback((user) => {
     setUsername(user.username);
@@ -41,6 +47,27 @@ const Dashboard = () => {
     }
     loadWorkspaces();
   }, []);
+
+  useEffect(() => {
+    const bookmark = location.state?.editingBookmark;
+    if (!bookmark) return;
+
+    navigate(location.pathname, { replace: true, state: null });
+    requestAnimationFrame(() => {
+      document
+        .getElementById("bookmark-form-panel")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }, [location.pathname, location.state, navigate]);
+
+  function handleBookmarkEdit(bookmark) {
+    setEditingBookmark(bookmark);
+    requestAnimationFrame(() => {
+      document
+        .getElementById("bookmark-form-panel")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
   async function handleCreateWorkspace(event) {
     event.preventDefault();
     const trimmedName = workspaceName.trim();
@@ -93,6 +120,7 @@ const Dashboard = () => {
         </div>
         <Profile
           workspaceCount={workspaces.length}
+          bookmarkRefreshKey={bookmarkRefreshKey}
           onUserLoaded={handleUserLoaded}
         />
         <div className="core-dashboard">
@@ -174,7 +202,7 @@ const Dashboard = () => {
                     key={workspace.id}
                     id={workspace.id}
                     title={workspace.name}
-                    bookmarks="0"
+                    bookmarks={workspace.bookmark_count}
                     onUpdate={handleUpdateWorkspace}
                     onDelete={handleDeleteWorkspace}
                   />
@@ -203,10 +231,46 @@ const Dashboard = () => {
             <Recent_Bookmarks
               refreshKey={bookmarkRefreshKey}
               workspaces={workspaces}
+              onBookmarkEdit={handleBookmarkEdit}
+              onBookmarkDeleted={(workspaceId) => {
+                setBookmarkRefreshKey((current) => current + 1);
+                setWorkspaces((current) =>
+                  current.map((workspace) =>
+                    workspace.id === workspaceId
+                      ? {
+                          ...workspace,
+                          bookmark_count: Math.max(
+                            0,
+                            workspace.bookmark_count - 1,
+                          ),
+                        }
+                      : workspace,
+                  ),
+                );
+              }}
             />
             <CreateBookmark
+              key={editingBookmark?.id || "create"}
               workspaces={workspaces}
-              onCreated={() => setBookmarkRefreshKey((current) => current + 1)}
+              editingBookmark={editingBookmark}
+              onCancelEdit={() => setEditingBookmark(null)}
+              onUpdated={() => {
+                setEditingBookmark(null);
+                setBookmarkRefreshKey((current) => current + 1);
+              }}
+              onCreated={(workspaceId) => {
+                setBookmarkRefreshKey((current) => current + 1);
+                setWorkspaces((current) =>
+                  current.map((workspace) =>
+                    workspace.id === workspaceId
+                      ? {
+                          ...workspace,
+                          bookmark_count: workspace.bookmark_count + 1,
+                        }
+                      : workspace,
+                  ),
+                );
+              }}
             />
           </div>
         </div>

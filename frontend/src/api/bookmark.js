@@ -24,3 +24,23 @@ export async function getWorkspaceBookmarks(workspaceId, page = 1, size = 10) {
   );
   return data;
 }
+
+export async function updateBookmark(
+  workspaceId,
+  bookmarkId,
+  title,
+  note = null,
+) {
+  const { data } = await apiClient.patch(
+    `/bookmarks/${workspaceId}/${bookmarkId}`,
+    { title, note },
+  );
+  return data;
+}
+
+export async function deleteBookmark(workspaceId, bookmarkId) {
+  const { data } = await apiClient.delete(
+    `/bookmarks/${workspaceId}/${bookmarkId}`,
+  );
+  return data;
+}

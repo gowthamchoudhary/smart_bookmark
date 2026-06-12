@@ -38,6 +38,25 @@ def delete_bookmark(workspace_id,bookmark_id,user,db:Session):
     db.commit()
     return {"message":"Bookmark deleted successfully"}
 
+def update_bookmark(workspace_id,bookmark_id,user,data,db:Session):
+    validate_workspace_access(workspace_id,user.id,db)
+    bookmark = (
+        db.query(Bookmark)
+        .filter(
+            Bookmark.id == bookmark_id,
+            Bookmark.workspace_id == workspace_id,
+        )
+        .first()
+    )
+    if not bookmark:
+        raise HTTPException(status_code=404,detail="Bookmark not found")
+
+    bookmark.title = data.title
+    bookmark.note = data.note
+    db.commit()
+    db.refresh(bookmark)
+    return bookmark
+
 def search_bookmark(workspace_id,user, size, skip, query, db: Session):
 
     db_workspace = validate_workspace_access(workspace_id,user.id,db)  

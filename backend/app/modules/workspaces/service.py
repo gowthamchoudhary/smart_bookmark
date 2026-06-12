@@ -1,5 +1,5 @@
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from app.models.workspace import Workspace
 
 from datetime import datetime,timezone
@@ -14,7 +14,12 @@ def create_workspace(name:str,db:Session ,current_user):
     
 
 def get_user_workspace(db:Session,current_user):
-    db_workspace = db.query(Workspace).filter(Workspace.user_id==current_user.id).all()
+    db_workspace = (
+        db.query(Workspace)
+        .options(selectinload(Workspace.bookmarks))
+        .filter(Workspace.user_id==current_user.id)
+        .all()
+    )
     return db_workspace
 
 

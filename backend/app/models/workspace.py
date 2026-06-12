@@ -14,3 +14,6 @@ class Workspace(Base):
     owner = relationship("User",back_populates="workspaces")
     bookmarks = relationship("Bookmark",back_populates="workspace",cascade="all, delete-orphan")
 
+    @property
+    def bookmark_count(self):
+        return len(self.bookmarks)

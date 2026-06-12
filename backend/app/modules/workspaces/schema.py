@@ -7,6 +7,7 @@ class WorkSpaceCreate(BaseModel):
 class WorkSpaceResponse(BaseModel):
     id:int
     name:str
+    bookmark_count:int
     created_at:datetime
     class Config:
        from_attributes = True

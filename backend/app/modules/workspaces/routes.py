@@ -24,7 +24,7 @@ def create_workspace_route(data:WorkSpaceCreate,db:Session=Depends(get_db),curre
 def get_workspaces_route(db:Session = Depends(get_db),current_user=Depends(get_current_user)):
     return get_user_workspace(db,current_user)
 
-@router.get("/{workspace_id}")
+@router.get("/{workspace_id}",response_model=WorkSpaceResponse)
 def get_workspace_route(workspace_id:int,db:Session=Depends(get_db),current_user=Depends(get_current_user)):
     return get_workspace_service(workspace_id,db,current_user)
 
@@ -32,6 +32,6 @@ def get_workspace_route(workspace_id:int,db:Session=Depends(get_db),current_user
 def delete_workspace_route(workspace_id:int,db:Session = Depends(get_db),current_user = Depends(get_current_user)):
     return delete_workspace(workspace_id,db,current_user)
 
-@router.patch("/{workspace_id}")
+@router.patch("/{workspace_id}",response_model=WorkSpaceResponse)
 def update_workspace_route(workspace_id:int,name:str,db:Session=Depends(get_db),current_user=Depends(get_current_user)):
     return update_workspace_service(workspace_id,name,db,current_user)

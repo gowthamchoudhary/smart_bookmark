@@ -3,13 +3,17 @@ import "./Profile.css";
 import { FaFolder } from "react-icons/fa";
 import { FaSave } from "react-icons/fa";
 import { getme } from "../../api/authAPI";
+import { logoutUser } from "../../api/authAPI";
 import { getBookmarks } from "../../api/bookmark";
 import defaultProfile from "../../assets/profile.png";
+import { useNavigate } from "react-router-dom";
 
 const Profile = ({ workspaceCount = 0, onUserLoaded }) => {
   const [user, setUser] = useState(null);
   const [bookmarkCount, setBookmarkCount] = useState(0);
   const [error, setError] = useState("");
+  const [loggingOut, setLoggingOut] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadProfile() {
@@ -32,6 +36,15 @@ const Profile = ({ workspaceCount = 0, onUserLoaded }) => {
 
   if (error) {
     return <div className="profile-page profile-error">{error}</div>;
+  }
+
+  async function handleLogout() {
+    try {
+      setLoggingOut(true);
+      await logoutUser();
+    } finally {
+      navigate("/auth", { replace: true });
+    }
   }
 
   return (
@@ -58,6 +71,14 @@ const Profile = ({ workspaceCount = 0, onUserLoaded }) => {
           </div>
         </div>
       </div>
+      <button
+        type="button"
+        className="profile-logout"
+        onClick={handleLogout}
+        disabled={loggingOut}
+      >
+        {loggingOut ? "Logging out..." : "Logout"}
+      </button>
     </div>
   );
 };

@@ -138,6 +138,32 @@ form button {
   font-family: "Kumbh Sans", sans-serif;
   font-size: 20px;
 }
+
+.profile-picture-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 14px;
+}
+
+.profile-picture-field input {
+  padding: 10px;
+}
+
+.profile-picture-preview {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.auth-error {
+  color: #c62828;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 14px;
+}
 .register-option {
   outline: none;
   border: none;

@@ -4,11 +4,20 @@ function getErrorMessage(error, fallback) {
   return error.response?.data?.detail || error.message || fallback;
 }
 
-export async function registerUser(email, password) {
+export async function registerUser(email, username, password, profilePicture) {
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("username", username);
+  formData.append("password", password);
+  if (profilePicture) {
+    formData.append("profile_picture", profilePicture);
+  }
+
   try {
-    const { data } = await apiClient.post("/auth/register", {
-      email,
-      password,
+    const { data } = await apiClient.post("/auth/register", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return data;
   } catch (error) {

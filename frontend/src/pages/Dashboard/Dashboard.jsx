@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import "./Dashboard.css";
 
 import { LuSearch } from "react-icons/lu";
@@ -11,6 +11,7 @@ import { createWorkspace } from "../../api/workspace";
 // import { updateWorkspace } from "../../api/workspace";
 import { deleteWorkspace } from "../../api/workspace";
 import CreateBookmark from "../../components/CreateBookmark/CreateBookmark";
+import Profile from "../../components/Profile/Profile";
 const Dashboard = () => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -20,7 +21,11 @@ const Dashboard = () => {
   const [creatingWorkspace, setCreatingWorkspace] = useState(false);
   const [workspaceName, setWorkspaceName] = useState("");
   const [bookmarkRefreshKey, setBookmarkRefreshKey] = useState(0);
+  const [username, setUsername] = useState("");
   const workspaceScrollRef = useRef(null);
+  const handleUserLoaded = useCallback((user) => {
+    setUsername(user.username);
+  }, []);
   useEffect(() => {
     async function loadWorkspaces() {
       setError("");
@@ -86,10 +91,16 @@ const Dashboard = () => {
         <div className="dashboard_logo logo">
           Memory<span id="OS_part">OS</span>
         </div>
+        <Profile
+          workspaceCount={workspaces.length}
+          onUserLoaded={handleUserLoaded}
+        />
         <div className="core-dashboard">
           <div className="top-bar">
             <div className="wish-data">
-              <div className="main-wish">Hey There!👋</div>
+              <div className="main-wish">
+                Hey There{username ? `, ${username}👋` : ""}!
+              </div>
               <div className="sub-text">
                 Here's what happening with your workspaces today.
               </div>

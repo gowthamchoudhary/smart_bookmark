@@ -1,7 +1,6 @@
-import React, { useState } from "react";
 import "./TopBar.css";
-const TopBar = () => {
-  const [active, setActive] = useState("getStarted");
+
+const TopBar = ({ active, onChange }) => {
   return (
     <header className="topbar">
       <div className="logo">
@@ -11,13 +10,13 @@ const TopBar = () => {
         <div className={`slider ${active === "demo" ? "slider-right" : ""}`}/>
           <button
             className={active === "getStarted" ? "active" : ""}
-            onClick={() => setActive("getStarted")}
+            onClick={() => onChange("getStarted")}
           >
             Get Started
           </button>
           <button
             className={active === "demo" ? "active" : ""}
-            onClick={() => setActive("demo")}
+            onClick={() => onChange("demo")}
           >
             Demo
           </button>

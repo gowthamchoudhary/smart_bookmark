@@ -5,11 +5,13 @@ import Auth from "./pages/Auth/Auth";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Workspaces from "./pages/Workspaces/Workspaces";
+import Demo from "./pages/Demo/Demo";
 
 export const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/demo" element={<Demo />} />
       <Route path="/auth" element={<Auth />} />
       <Route
         path="/dashboard"

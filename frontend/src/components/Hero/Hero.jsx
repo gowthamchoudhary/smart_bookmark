@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import TopBar from "../TopBar/TopBar";
 import MemoryNode from "./MemoryNode/MemoryNode";
 import "./Hero.css";
@@ -8,21 +8,25 @@ import yt_clip from "../../assets/videos/yt_lecture_clip.mp4";
 import { useNavigate } from "react-router-dom";
 import {
   FaXTwitter,
-  FaGithub,
   FaYoutube,
   FaReddit,
   FaInstagram,
 } from "react-icons/fa6";
 import { FiArrowRight } from "react-icons/fi";
 import { FaLightbulb } from "react-icons/fa6";
-import { FaThumbtack } from "react-icons/fa";
-import { SiGmail } from "react-icons/si";
 import Toothless from "./toothless_inti/Toothless";
 const Hero = () => {
   const navigate = useNavigate();
+  const [active, setActive] = useState("getStarted");
+  const isDemo = active === "demo";
+
+  const handleMainAction = () => {
+    navigate(isDemo ? "/demo" : "/auth");
+  };
+
   return (
     <div className="hero">
-      <TopBar></TopBar>
+      <TopBar active={active} onChange={setActive} />
       <Toothless></Toothless>
       <div className="star star1 "></div>
       <div className="star star2"></div>
@@ -162,8 +166,8 @@ const Hero = () => {
           workspaces <br /> Search instantly, stay focused, and build your
           personal knowledge hub.
         </div>
-        <button className="main_content_btn" onClick={() => navigate("/auth")}>
-          Get Started <FiArrowRight className="arrow" />
+        <button className="main_content_btn" onClick={handleMainAction}>
+          {isDemo ? "Demo" : "Get Started"} <FiArrowRight className="arrow" />
         </button>
         {/* <div className="platforms">
           <FaXTwitter className="platform-icon x" />

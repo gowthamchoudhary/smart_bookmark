@@ -15,7 +15,7 @@ from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
 from app.modules.auth.service import create_user, login_user, get_current_user
-from app.modules.auth.schema import RefreshTokenRequest
+from app.modules.auth.schema import BioUpdate, RefreshTokenRequest
 from app.db.database import get_db
 from fastapi.security import OAuth2PasswordRequestForm
 router = APIRouter(tags=["auth"])
@@ -118,6 +118,17 @@ def get_me(request: Request, current_user=Depends(get_current_user)):
         }
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
+
+@router.patch("/me/bio")
+def update_bio(
+    data:BioUpdate,
+    current_user=Depends(get_current_user),
+    db:Session=Depends(get_db),
+):
+    current_user.bio = data.bio.strip() if data.bio else None
+    db.commit()
+    db.refresh(current_user)
+    return {"bio":current_user.bio}
     
 
 @router.post("/refresh")

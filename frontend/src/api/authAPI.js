@@ -64,6 +64,17 @@ export async function getme() {
   }
 }
 
+export async function updateBio(bio) {
+  try {
+    const { data } = await apiClient.patch("/auth/me/bio", { bio });
+    return data;
+  } catch (error) {
+    throw new Error(getErrorMessage(error, "Failed to update bio"), {
+      cause: error,
+    });
+  }
+}
+
 export async function logoutUser() {
   const refreshToken = localStorage.getItem("refresh_token");
 

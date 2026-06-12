@@ -11,5 +11,9 @@ class UserRegister(BaseModel):
 class UserLogin(BaseModel):
     email:EmailStr
     password:str 
+
+class BioUpdate(BaseModel):
+    bio:Optional[str] = Field(default=None,max_length=300)
+
 class RefreshTokenRequest(BaseModel):
     refresh_token:str

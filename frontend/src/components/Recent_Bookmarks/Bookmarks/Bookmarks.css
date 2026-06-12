@@ -1,7 +1,6 @@
 .bookmark {
   width: 90%;
   height: 50px;
-  border: 1px solid black;
   margin: 10px 30px;
   border-radius: 10px;
   background-color: #f8f8fa;
@@ -11,12 +10,15 @@
   align-items: center;
   padding: 10px;
   gap: 35px;
+  min-width: 0;
 }
 
 .bookmark-metadata {
   display: flex;
-
+  align-items: center;
   gap: 20px;
+  min-width: 0;
+  flex: 1;
 }
 .bookmark-metadata .title {
   font-size: 12px;
@@ -35,16 +37,27 @@
 }
 .bookmark-metadata a {
   font-size: 11px;
-  font-weight: 400;
+  font-weight: 500;
   color: orangered;
   font-family: "Kumbh Sans", sans-serif;
+  display: block;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.workspace {
+.bookmark-workspace {
   font-family: "Kumbh Sans", sans-serif;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 600;
-  padding: 5px;
+  padding: 5px 9px;
   border-radius: 999px;
-  outline: none;
-  border: none;
+  background-color: #ececf1;
+  color: #52525b;
+  margin-left: auto;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
 }

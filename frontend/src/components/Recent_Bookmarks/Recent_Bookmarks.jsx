@@ -4,7 +4,7 @@ import Bookmarks from "./Bookmarks/Bookmarks";
 import { getBookmarks } from "../../api/bookmark";
 import bookmark_icon from "../../assets/bookmark.png";
 
-const Recent_Bookmarks = ({ refreshKey = 0 }) => {
+const Recent_Bookmarks = ({ refreshKey = 0, workspaces = [] }) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,6 +47,11 @@ const Recent_Bookmarks = ({ refreshKey = 0 }) => {
             key={bookmark.id}
             title={bookmark.title}
             link={bookmark.url}
+            workspace={
+              workspaces.find(
+                (workspace) => workspace.id === bookmark.workspace_id,
+              )?.name || "Unknown workspace"
+            }
           />
         ))}
     </div>

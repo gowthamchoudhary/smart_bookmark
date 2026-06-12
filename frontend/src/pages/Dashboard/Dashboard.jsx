@@ -189,7 +189,10 @@ const Dashboard = () => {
           {error && <p className="error-message">{error}</p>}
           {!loading && workspaces.length === 0 && <p>No workspaces yet.</p>}
           <div className="bookmark-section">
-            <Recent_Bookmarks refreshKey={bookmarkRefreshKey} />
+            <Recent_Bookmarks
+              refreshKey={bookmarkRefreshKey}
+              workspaces={workspaces}
+            />
             <CreateBookmark
               workspaces={workspaces}
               onCreated={() => setBookmarkRefreshKey((current) => current + 1)}

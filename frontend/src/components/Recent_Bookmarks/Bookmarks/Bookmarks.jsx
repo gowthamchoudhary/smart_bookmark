@@ -1,5 +1,5 @@
-import { BsThreeDots } from "react-icons/bs";
 import "./Bookmarks.css";
+
 const Bookmarks = ({ title, link, workspace }) => {
   return (
     <div className="bookmark">
@@ -10,11 +10,14 @@ const Bookmarks = ({ title, link, workspace }) => {
           className="bookmark-url"
           target="_blank"
           rel="noreferrer"
+          title={link}
         >
           {link}
         </a>
       </div>
-      <div className={`workspace workspace`}>{workspace}</div>
+      <div className="bookmark-workspace" title={workspace}>
+        {workspace}
+      </div>
     </div>
   );
 };

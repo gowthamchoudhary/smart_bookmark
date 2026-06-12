@@ -12,6 +12,7 @@ class BookmarkResponse(BaseModel):
     title:str
     url:str
     note:Optional[str] = None
+    workspace_id:Optional[int] = None
     created_at:datetime
     class Config:
         from_attributes = True

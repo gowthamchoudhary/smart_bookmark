@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
+import { useEffect, useState } from "react";
 import "./Auth.css";
 import sub_img from "../../assets/bg_sub.png";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +6,21 @@ import { loginUser, registerUser } from "../../api/authAPI";
 const Auth = () => {
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePreview, setProfilePreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(
+    () => () => {
+      if (profilePreview) URL.revokeObjectURL(profilePreview);
+    },
+    [profilePreview],
+  );
 
   const handleSubmit = async (e) => {
     setLoading(true);
@@ -20,9 +28,12 @@ const Auth = () => {
     e.preventDefault();
     try {
       if (mode === "register") {
-        await registerUser(email, password);
+        await registerUser(email, username, password, profilePicture);
         setMode("login");
+        setUsername("");
         setPassword("");
+        setProfilePicture(null);
+        setProfilePreview("");
       } else {
         await loginUser(email, password);
         navigate("/dashboard");
@@ -48,7 +59,38 @@ const Auth = () => {
           <h2>{mode === "login" ? "welcome Back" : "Create Account"}</h2>
           <form onSubmit={handleSubmit}>
             {mode === "register" && (
-              <input type="text" placeholder="full name" />
+              <>
+                <input
+                  type="text"
+                  value={username}
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
+                  minLength={3}
+                  maxLength={50}
+                  required
+                />
+                <label className="profile-picture-field">
+                  Profile picture
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null;
+                      setProfilePicture(file);
+                      setProfilePreview(
+                        file ? URL.createObjectURL(file) : "",
+                      );
+                    }}
+                  />
+                </label>
+                {profilePreview && (
+                  <img
+                    className="profile-picture-preview"
+                    src={profilePreview}
+                    alt="Profile preview"
+                  />
+                )}
+              </>
             )}
             <input
               type="email"
@@ -64,10 +106,15 @@ const Auth = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <button type="submit">
-              {mode === "login" ? "Login" : "Register"}
+            <button type="submit" disabled={loading}>
+              {loading
+                ? "Please wait..."
+                : mode === "login"
+                  ? "Login"
+                  : "Register"}
             </button>
           </form>
+          {error && <p className="auth-error">{error}</p>}
           {mode === "login" && (
             <p className="footter">
               doesn't have an Account?

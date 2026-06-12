@@ -38,6 +38,7 @@ async def register(
     email: EmailStr = Form(...),
     username: str = Form(..., min_length=3, max_length=50),
     password: str = Form(..., min_length=6),
+    bio: str | None = Form(default=None, max_length=300),
     profile_picture: UploadFile | None = File(default=None),
     db: Session = Depends(get_db),
 ):
@@ -45,6 +46,7 @@ async def register(
 
     try:
         username = username.strip()
+        bio = bio.strip() if bio else None
         if not re.fullmatch(r"[A-Za-z0-9_]+", username):
             raise HTTPException(
                 status_code=400,
@@ -77,6 +79,7 @@ async def register(
             username,
             password,
             picture_path,
+            bio,
             db,
         )
         return {"message": "User registered successfully"}
@@ -111,6 +114,7 @@ def get_me(request: Request, current_user=Depends(get_current_user)):
             "email": current_user.email,
             "username": current_user.username,
             "profile_picture": profile_picture,
+            "bio": current_user.bio,
         }
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))

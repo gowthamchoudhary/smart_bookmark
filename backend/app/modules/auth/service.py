@@ -8,7 +8,14 @@ from datetime import datetime,timedelta
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")                                                            
 
-def create_user(email:str,username:str,password:str,profile_picture:str | None,db:Session):
+def create_user(
+    email:str,
+    username:str,
+    password:str,
+    profile_picture:str | None,
+    bio:str | None,
+    db:Session,
+):
     email_user = db.query(User).filter(User.email==email).first()
     if email_user:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Email already registered")
@@ -20,6 +27,7 @@ def create_user(email:str,username:str,password:str,profile_picture:str | None,d
         email=email,
         username=username,
         profile_picture=profile_picture,
+        bio=bio,
         password=hash_password,
     )
     db.add(new_user)

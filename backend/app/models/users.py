@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Integer,String,ForeignKey,DateTime,Boolean
+from sqlalchemy import Column,Integer,String,Text,ForeignKey,DateTime,Boolean
 from app.db.database import Base
 from datetime import datetime   
 
@@ -9,6 +9,7 @@ class User(Base):
     email=Column(String,unique=True,index=True,nullable=False)
     username=Column(String,unique=True,index=True,nullable=False)
     profile_picture=Column(String,nullable=True)
+    bio=Column(Text,nullable=True)
     password=Column(String)
     refresh_tokens = relationship("RefreshToken",back_populates="user",cascade="all,delete-orphan")
     workspaces = relationship("Workspace",back_populates="owner")

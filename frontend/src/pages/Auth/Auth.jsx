@@ -9,6 +9,7 @@ const Auth = () => {
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
+  const [bio, setBio] = useState("");
   const [password, setPassword] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [profilePreview, setProfilePreview] = useState("");
@@ -30,9 +31,16 @@ const Auth = () => {
     e.preventDefault();
     try {
       if (mode === "register") {
-        await registerUser(email, username, password, profilePicture);
+        await registerUser(
+          email,
+          username,
+          password,
+          profilePicture,
+          bio,
+        );
         setMode("login");
         setUsername("");
+        setBio("");
         setPassword("");
         setProfilePicture(null);
         setProfilePreview("");
@@ -94,6 +102,13 @@ const Auth = () => {
                     minLength={3}
                     maxLength={50}
                     required
+                  />
+                  <textarea
+                    value={bio}
+                    placeholder="Bio (optional)"
+                    onChange={(e) => setBio(e.target.value)}
+                    maxLength={300}
+                    rows={2}
                   />
                 </>
               )}

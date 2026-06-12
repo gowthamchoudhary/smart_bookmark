@@ -122,8 +122,12 @@ form {
   flex-direction: column;
   gap: 15px;
 }
+form input{
+  height: 45px;
+}
 
-form input {
+form input,
+form textarea {
   padding: 15px;
   border: 2px solid #ddd;
   border-radius: 10px;
@@ -131,9 +135,19 @@ form input {
   font-family: "Kumbh Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
+
   color: #18171c;
 }
-form input::placeholder {
+form textarea{
+  height: 55px;
+}
+
+form textarea {
+  resize: none;
+}
+
+form input::placeholder,
+form textarea::placeholder {
   font-family: "Kumbh Sans", sans-serif;
   color: #999;
   font-weight: 400;
@@ -167,8 +181,8 @@ form button:hover {
 .profile-picture-picker {
   position: relative;
   align-self: center;
-  width: 82px;
-  height: 82px;
+  width: 60px;
+  height: 60px;
   margin-bottom: 4px;
   border-radius: 50%;
   cursor: pointer;

@@ -4,11 +4,20 @@ function getErrorMessage(error, fallback) {
   return error.response?.data?.detail || error.message || fallback;
 }
 
-export async function registerUser(email, username, password, profilePicture) {
+export async function registerUser(
+  email,
+  username,
+  password,
+  profilePicture,
+  bio,
+) {
   const formData = new FormData();
   formData.append("email", email);
   formData.append("username", username);
   formData.append("password", password);
+  if (bio.trim()) {
+    formData.append("bio", bio.trim());
+  }
   if (profilePicture) {
     formData.append("profile_picture", profilePicture);
   }

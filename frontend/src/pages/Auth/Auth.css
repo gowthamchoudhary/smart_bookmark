@@ -14,24 +14,27 @@ body {
   z-index: -2;
 }
 
-.background::after {
+/* .background::after {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(255, 255, 255, 0.2);
+} */
+.background::after {
+  display: none;
 }
-
 .auth-page {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .logo_auth {
   color: black;
   position: absolute;
   top: 50px;
-  left: 280px;
+  left: 30px;
   text-shadow: none;
   font-weight: 100;
 }
@@ -56,7 +59,6 @@ body {
 .sub_img img {
   width: 500px;
   height: 650px;
-
   border-radius: 0 6px 6px 0;
 }
 
@@ -94,7 +96,6 @@ body {
     0 4px 4px rgba(180, 178, 189, 0.2);
 
   transition: all 0.2s ease;
-  
 }
 .auth-tabs button:hover {
   transform: translateY(-1px);
@@ -123,7 +124,15 @@ form input {
   border: 2px solid #ddd;
   border-radius: 10px;
   outline: none;
-  font-family: "";
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #18171c;
+}
+form input::placeholder {
+  font-family: "Kumbh Sans", sans-serif;
+  color: #999;
+  font-weight: 400;
 }
 
 form button {
@@ -134,29 +143,74 @@ form button {
   background: rgb(16, 70, 247);
   color: white;
   cursor: pointer;
-  box-shadow: rgba(68, 162, 234, 0.679);
+  /* box-shadow: rgba(68, 162, 234, 0.679); */
   font-family: "Kumbh Sans", sans-serif;
   font-size: 20px;
+  box-shadow:
+    inset 0 4px 4px rgba(255, 255, 255, 0.449),
+    0 4px 8px rgba(83, 150, 243, 0.54),
+    0 6px 8px rgba(14, 6, 159, 0.25);
+}
+form button:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    inset 0 4px 4px rgba(95, 148, 222, 0.516),
+    0 4px 8px rgba(129, 148, 245, 0.673),
+    0 6px 8px rgba(44, 58, 246, 0.25);
 }
 
-.profile-picture-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-family: "Kumbh Sans", sans-serif;
-  font-size: 14px;
+.profile-picture-picker {
+  position: relative;
+  align-self: center;
+  width: 82px;
+  height: 82px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.profile-picture-field input {
-  padding: 10px;
+.profile-picture-picker:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
 }
 
-.profile-picture-preview {
-  width: 72px;
-  height: 72px;
+.profile-picture-picker img {
+  display: block;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ddd;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #d7d7dc;
+}
+
+.profile-picture-picker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.profile-picture-add {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  z-index: 1;
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #1046f7;
+  color: #fff;
+  font-size: 19px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
 }
 
 .auth-error {
@@ -177,7 +231,7 @@ form button {
   /* box-shadow: 0 0 8px 6px rgba(0, 0, 0, 0.137); */
 }
 .footter {
-  margin-top: 50px;
+  margin-top: 10px;
 }
 .footter p {
   /* font-family: ; */

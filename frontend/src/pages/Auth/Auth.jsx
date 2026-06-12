@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Auth.css";
 import sub_img from "../../assets/bg_sub.png";
+import defaultProfile from "../../assets/profile.png";
+import { IoAdd } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { loginUser, registerUser } from "../../api/authAPI";
 const Auth = () => {
@@ -60,17 +62,17 @@ const Auth = () => {
           <form onSubmit={handleSubmit}>
             {mode === "register" && (
               <>
-                <input
-                  type="text"
-                  value={username}
-                  placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  minLength={3}
-                  maxLength={50}
-                  required
-                />
-                <label className="profile-picture-field">
-                  Profile picture
+                <label
+                  className="profile-picture-picker"
+                  title="Choose profile picture"
+                >
+                  <img
+                    src={profilePreview || defaultProfile}
+                    alt="Profile preview"
+                  />
+                  <span className="profile-picture-add">
+                    <IoAdd aria-hidden="true" />
+                  </span>
                   <input
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
@@ -83,13 +85,15 @@ const Auth = () => {
                     }}
                   />
                 </label>
-                {profilePreview && (
-                  <img
-                    className="profile-picture-preview"
-                    src={profilePreview}
-                    alt="Profile preview"
-                  />
-                )}
+                <input
+                  type="text"
+                  value={username}
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
+                  minLength={3}
+                  maxLength={50}
+                  required
+                />
               </>
             )}
             <input

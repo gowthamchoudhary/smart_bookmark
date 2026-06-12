@@ -7,12 +7,26 @@ import bookmark_icon from "../../assets/bookmark.png";
 const Recent_Bookmarks = ({
   refreshKey = 0,
   workspaces = [],
+  query = "",
   onBookmarkEdit,
   onBookmarkDeleted,
 }) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredBookmarks = bookmarks.filter((bookmark) => {
+    if (!normalizedQuery) return true;
+
+    const workspaceName =
+      workspaces.find(
+        (workspace) => workspace.id === bookmark.workspace_id,
+      )?.name || "";
+
+    return [bookmark.title, bookmark.url, bookmark.note, workspaceName].some(
+      (value) => value?.toLowerCase().includes(normalizedQuery),
+    );
+  });
 
   useEffect(() => {
     async function loadBookmarks() {
@@ -44,10 +58,18 @@ const Recent_Bookmarks = ({
           No bookmarks created
         </div>
       )}
+      {!loading &&
+        !error &&
+        bookmarks.length > 0 &&
+        filteredBookmarks.length === 0 && (
+          <div className="bookmark-search-empty">
+            No bookmarks match “{query.trim()}”
+          </div>
+        )}
       {error && <div className="error">{error}</div>}
       {!loading &&
         !error &&
-        bookmarks.slice(0, 10).map((bookmark) => (
+        filteredBookmarks.slice(0, 10).map((bookmark) => (
           <Bookmarks
             key={bookmark.id}
             id={bookmark.id}

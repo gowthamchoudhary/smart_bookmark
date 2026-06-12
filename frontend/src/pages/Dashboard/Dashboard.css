@@ -206,6 +206,15 @@ body:has(.dashboard-bg)::-webkit-scrollbar {
 .workspace-scroll > * {
   scroll-snap-align: start;
 }
+
+.no-search-results {
+  align-self: center;
+  margin: 0 12px;
+  color: #71717a;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 13px;
+  white-space: nowrap;
+}
 .more {
   flex: 0 0 42px;
   height: 42px;

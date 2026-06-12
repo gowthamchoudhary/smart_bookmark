@@ -29,6 +29,13 @@ const Dashboard = () => {
     location.state?.editingBookmark || null,
   );
   const workspaceScrollRef = useRef(null);
+  const searchInputRef = useRef(null);
+  const normalizedQuery = query.trim().toLowerCase();
+  const filteredWorkspaces = normalizedQuery
+    ? workspaces.filter((workspace) =>
+        workspace.name.toLowerCase().includes(normalizedQuery),
+      )
+    : workspaces;
   const handleUserLoaded = useCallback((user) => {
     setUsername(user.username);
   }, []);
@@ -59,6 +66,18 @@ const Dashboard = () => {
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
     });
   }, [location.pathname, location.state, navigate]);
+
+  useEffect(() => {
+    function focusSearch(event) {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    }
+
+    window.addEventListener("keydown", focusSearch);
+    return () => window.removeEventListener("keydown", focusSearch);
+  }, []);
 
   function handleBookmarkEdit(bookmark) {
     setEditingBookmark(bookmark);
@@ -137,6 +156,7 @@ const Dashboard = () => {
               {/* <Lusearch size={18} /> */}
               <LuSearch size={18} className="search-icon" />
               <input
+                ref={searchInputRef}
                 type="text"
                 placeholder="search memory..."
                 value={query}
@@ -197,7 +217,7 @@ const Dashboard = () => {
 
             <div className="workspace-scroll" ref={workspaceScrollRef}>
               {!loading &&
-                workspaces.map((workspace) => (
+                filteredWorkspaces.map((workspace) => (
                   <Workspace_Add
                     key={workspace.id}
                     id={workspace.id}
@@ -207,6 +227,11 @@ const Dashboard = () => {
                     onDelete={handleDeleteWorkspace}
                   />
                 ))}
+              {!loading &&
+                normalizedQuery &&
+                filteredWorkspaces.length === 0 && (
+                  <p className="no-search-results">No matching workspaces</p>
+                )}
             </div>
 
             {/* <button
@@ -231,6 +256,7 @@ const Dashboard = () => {
             <Recent_Bookmarks
               refreshKey={bookmarkRefreshKey}
               workspaces={workspaces}
+              query={query}
               onBookmarkEdit={handleBookmarkEdit}
               onBookmarkDeleted={(workspaceId) => {
                 setBookmarkRefreshKey((current) => current + 1);

@@ -84,3 +84,14 @@
   height: 80px;
   width: auto;
 }
+
+.bookmark-search-empty {
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  color: #71717a;
+  font-family: "Kumbh Sans", sans-serif;
+  font-size: 14px;
+  text-align: center;
+}

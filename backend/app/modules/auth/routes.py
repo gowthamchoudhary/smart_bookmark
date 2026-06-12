@@ -8,6 +8,7 @@ from fastapi import (
     File,
     Form,
     HTTPException,
+    Request,
     UploadFile,
 )
 from pydantic import EmailStr
@@ -97,9 +98,20 @@ def login(form_data:OAuth2PasswordRequestForm=Depends(),db:Session = Depends(get
 
 
 @router.get("/me")
-def get_me(current_user=Depends(get_current_user)):
+def get_me(request: Request, current_user=Depends(get_current_user)):
     try:
-        return {"id": current_user.id, "email": current_user.email}
+        profile_picture = current_user.profile_picture
+        if profile_picture:
+            profile_picture = (
+                f"{str(request.base_url).rstrip('/')}{profile_picture}"
+            )
+
+        return {
+            "id": current_user.id,
+            "email": current_user.email,
+            "username": current_user.username,
+            "profile_picture": profile_picture,
+        }
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
     

@@ -1,6 +1,19 @@
 import "./Demo.css";
 import dashboard_img from "../../assets/dashboard.png";
-import { FiArrowRight } from "react-icons/fi";
+import confused_icon from "../../assets/confused_duck.png";
+import crossImage from "../../assets/cross.png";
+import {
+  FiArrowRight,
+  FiCheck,
+  FiMaximize2,
+  FiMoreHorizontal,
+} from "react-icons/fi";
+import { FaFolder } from "react-icons/fa";
+import { RiRobot2Line } from "react-icons/ri";
+import { SiHuggingface, SiOpenai } from "react-icons/si";
+import { PiFilePdfBold } from "react-icons/pi";
+import { TbLink } from "react-icons/tb";
+import { BsCodeSlash } from "react-icons/bs";
 const Demo = () => {
   return (
     <div className="demo-bg">
@@ -23,19 +36,156 @@ const Demo = () => {
       </section>
       <section className="problem">
         <h1>
-          The Problem <span>Vs</span> Solution
+          The Problem <span>Vs</span> The Solution
         </h1>
+        <h2 className="subtitle">
+          We save more information than ever before, yet most of it becomes
+          impossible to find when we need it.
+        </h2>
         <div className="problem-layout">
-          <div className="left">
-            500+ browser bookmarks <br />
-            20+ open tabs <br />
-            Saved posts everywhere <br /> Nothing is organized
+          <div className="left sidelayout">
+            <img
+              src={confused_icon}
+              className="confused-icon"
+              alt="Confused character"
+            />
+            <div className="without-memory-content">
+              <div className="layout-title">
+                <span className="cross-badge">×</span>
+                Without MemoryOS
+              </div>
+              <div className="without-memory-points">
+                <div className="without-memory-point">
+                  <img src={crossImage} alt="" />
+                  <span>You save something valuable.</span>
+                </div>
+                <div className="without-memory-point">
+                  <img src={crossImage} alt="" />
+                  <span>A week later, you forget where you saved it.</span>
+                </div>
+                <div className="without-memory-point">
+                  <img src={crossImage} alt="" />
+                  <span>A month later, you search for it again.</span>
+                </div>
+                <div className="without-memory-point">
+                  <img src={crossImage} alt="" />
+                  <span>A year later, it might as well not exist.</span>
+                </div>
+              </div>
+            </div>
+            <div className="inner-layout">
+              <div className="innerlayout-title">All Bookmarks</div>
+              <div className="folders">
+                <div className="folder-item">
+                  <FaFolder size={16} className="save-data-icons" />
+                  <span>AI Research</span>
+                </div>
+                <div className="folder-item">
+                  <FaFolder size={16} className="save-data-icons" />
+                  <span>Design Inspiration</span>
+                </div>
+                <div className="folder-item">
+                  <FaFolder size={16} className="save-data-icons" />
+                  <span>Tutorials</span>
+                </div>
+                <div className="folder-item">
+                  <FaFolder size={16} className="save-data-icons" />
+                  <span>Articles to Read</span>
+                </div>
+                <div className="folder-item">
+                  <FaFolder size={16} className="save-data-icons" />
+                  <span>Startup Ideas</span>
+                </div>
+                <div className="folder-item">
+                  <FaFolder size={16} className="save-data-icons" />
+                  <span>Later</span>
+                </div>
+                <div className="folder-item">
+                  <FaFolder size={16} className="save-data-icons" />
+                  <span>Random Stuff</span>
+                </div>
+                <div className="folder-item">
+                  <FaFolder size={16} className="save-data-icons" />
+                  <span>Work</span>
+                </div>
+                <div className="folder-more">...and 47 more</div>
+              </div>
+            </div>
           </div>
-          <div className="right">
-            Everything organized into workspaces <br />
-            Search instantly <br />
-            Store notes <br />
-            Group related resources
+          <div className="right sidelayout">
+            <div className="with-memory-content">
+              <div className="layout-title">
+                <span className="check-badge">
+                  <FiCheck />
+                </span>
+                With MemoryOS
+              </div>
+              <div className="with-memory-points">
+                <div className="with-memory-point">
+                  <span className="point-check">
+                    <FiCheck />
+                  </span>
+                  <span>Every resource has a workspace.</span>
+                </div>
+                <div className="with-memory-point">
+                  <span className="point-check">
+                    <FiCheck />
+                  </span>
+                  <span>Every bookmark has context.</span>
+                </div>
+                <div className="with-memory-point">
+                  <span className="point-check">
+                    <FiCheck />
+                  </span>
+                  <span>Everything remains searchable and organized.</span>
+                </div>
+                <div className="with-memory-point">
+                  <span className="point-check">
+                    <FiCheck />
+                  </span>
+                  <span>Knowledge stays useful forever.</span>
+                </div>
+              </div>
+            </div>
+            <div className="inner-layout memory-workspace">
+              <div className="memory-workspace-topbar">
+                <span className="memory-workspace-logo">MEMORYOS</span>
+                <div className="memory-workspace-actions">
+                  <FiMoreHorizontal />
+                  <FiMaximize2 />
+                </div>
+              </div>
+              <div className="memory-workspace-heading">
+                <RiRobot2Line className="workspace-icon" />
+                <div>
+                  <div className="workspace-name">AI &amp; Technology</div>
+                  <div className="workspace-count">5 bookmarks</div>
+                </div>
+              </div>
+              <div className="memory-workspace-divider"></div>
+              <div className="bookmark-list">
+                <div className="bookmark-row">
+                  <SiOpenai />
+                  <span>OpenAI</span>
+                </div>
+                <div className="bookmark-row">
+                  <SiHuggingface />
+                  <span>Hugging Face</span>
+                </div>
+                <div className="bookmark-row">
+                  <PiFilePdfBold />
+                  <span>Attention Is All You Need</span>
+                </div>
+                <div className="bookmark-row">
+                  <TbLink />
+                  <span>LangChain Docs</span>
+                </div>
+                <div className="bookmark-row">
+                  <BsCodeSlash />
+                  <span>Papers With Code</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

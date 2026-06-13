@@ -1,4 +1,4 @@
-.demo-bg .hero {
+.demo-bg .demo-hero {
   display: flex;
   /* align-items: center; */
   justify-content: space-between;
@@ -16,12 +16,12 @@
 .demo-bg .dash-png {
   max-width: 1050px;
 }
-.hero h1 {
+.demo-bg .demo-hero h1 {
   font-family: "Comfortaa", sans-serif;
   font-size: 45px;
   font-weight: 700;
 }
-.hero h2 {
+.demo-bg .demo-hero h2 {
   margin-top: 15px;
   color: rgb(255, 255, 255);
   font-size: 15px;
@@ -37,7 +37,7 @@
   border-radius: 15px;
   box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.296);
 }
-.hero button {
+.demo-bg .demo-hero button {
   outline: none;
   border: none;
   box-shadow: none;
@@ -51,7 +51,7 @@
   font-weight: 500;
   margin-top: 15px;
 }
-.hero-info {
+.demo-bg .hero-info {
   color: white;
 }
 
@@ -67,11 +67,20 @@
     max-width: none;
   }
 }
-.arrow {
+.demo-bg .arrow {
   color: blue;
   font-size: 20px;
   margin-left: 15px;
 }
-.problem{
-  display: flex;
+.problem {
+  background-color: white;
+  width: 100%;
+  padding: 30px;
+  border-radius: 30px 30px 0px 0;
+  box-shadow:
+    0 0 7px 3px rgba(0, 0, 0, 0.316),
+    inset 0 2px 4px rgba(0, 0, 0, 0.282);
+}
+.problem h1{
+  
 }

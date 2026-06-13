@@ -4,7 +4,7 @@ import { FiArrowRight } from "react-icons/fi";
 const Demo = () => {
   return (
     <div className="demo-bg">
-      <section className="hero">
+      <section className="demo-hero">
         <div className="hero-info">
           <h1>See MemoryOS in Action</h1>
           <h2>
@@ -22,7 +22,9 @@ const Demo = () => {
         </div>
       </section>
       <section className="problem">
-        <h1>The Problem</h1>
+        <h1>
+          The Problem <span>Vs</span> Solution
+        </h1>
         <div className="problem-layout">
           <div className="left">
             500+ browser bookmarks <br />

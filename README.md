@@ -143,7 +143,13 @@ SECRET_KEY=replace-this-with-a-long-random-secret
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 REFRESH_TOKEN_EXPIRE_DAYS=7
+CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+DATABASE_SSLMODE=require
 ```
+
+For deployment, set `CORS_ORIGINS` to the comma-separated frontend URLs that
+may call the API. PostgreSQL connections outside localhost use
+`DATABASE_SSLMODE=require` by default.
 
 Run the migrations and API:
 

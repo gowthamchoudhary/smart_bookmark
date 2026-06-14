@@ -358,6 +358,7 @@
 .workspace-demo {
   position: relative;
   overflow: hidden;
+  scroll-margin-top: 20px;
   background:
     radial-gradient(
       circle at 50% 0,

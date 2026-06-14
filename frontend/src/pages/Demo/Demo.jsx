@@ -14,6 +14,31 @@ import { SiHuggingface, SiOpenai } from "react-icons/si";
 import { PiFilePdfBold } from "react-icons/pi";
 import { TbLink } from "react-icons/tb";
 import { BsCodeSlash } from "react-icons/bs";
+import cloud_img from "../../assets/cloud.png";
+
+const demoWorkspaces = [
+  {
+    title: "AI Research",
+    bookmarks: 18,
+    className: "demo-workspace-blue",
+  },
+  {
+    title: "Design Inspiration",
+    bookmarks: 12,
+    className: "demo-workspace-purple",
+  },
+  {
+    title: "Learning Hub",
+    bookmarks: 24,
+    className: "demo-workspace-green",
+  },
+  {
+    title: "Startup Ideas",
+    bookmarks: 9,
+    className: "demo-workspace-peach",
+  },
+];
+
 const Demo = () => {
   return (
     <div className="demo-bg">
@@ -189,15 +214,64 @@ const Demo = () => {
           </div>
         </div>
       </section>
+      <div className="bottom-fade-demo"></div>
       <section className="workspace-demo">
-        <div className="workspacesection-title">Demo Workspace</div>
-        <div className="demo-workspaces"></div>
+        <div className="workspace-demo-heading">
+          <span className="workspace-demo-eyebrow">
+            YOUR KNOWLEDGE, ORGANIZED
+          </span>
+          <h2 className="workspacesection-title">Demo Workspaces</h2>
+          <p>
+            Keep every useful link close, grouped by the projects and ideas that
+            matter to you.
+          </p>
+        </div>
+        <div className="demo-workspaces">
+          {demoWorkspaces.map((workspace, index) => (
+            <article
+              className={`demo-workspace-card ${workspace.className}`}
+              key={workspace.title}
+              style={{ "--card-delay": `${index * 120}ms` }}
+            >
+              <span className="demo-workspace-handle"></span>
+              <button
+                className="demo-workspace-options"
+                type="button"
+                aria-label={`More options for ${workspace.title}`}
+              >
+                ...
+              </button>
+              <div className="demo-workspace-title">{workspace.title}</div>
+              <div className="demo-workspace-count">
+                {workspace.bookmarks} bookmarks
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
       <footer>
-        <div className="sec-1">Build Your Personal Knowledge Hub</div>
-        <div className="sec-2">Stop losing valuable information.</div>
-        <div className="sec-3">Start organizing what matters.</div>
-        <button className="create-button">Create Free Account</button>
+        <div className="inner-footer">
+          <img
+            src={cloud_img}
+            className="footer-cloud footer-cloud-left"
+            alt=""
+          />
+          <div className="footer-stars" aria-hidden="true">
+            <span className="footer-star footer-star-1"></span>
+            <span className="footer-star footer-star-2"></span>
+            <span className="footer-star footer-star-3"></span>
+            <span className="footer-star footer-star-4"></span>
+            <span className="footer-star footer-star-5"></span>
+          </div>
+          <div className="sec-1">Build Your Personal Knowledge Hub</div>
+          <div className="sec-2">Stop losing valuable information.</div>
+          <div className="sec-3">Start organizing what matters.</div>
+          <button className="create-button">
+            Create Free Account
+            <FiArrowRight className="create-button-arrow" />
+          </button>
+          <img src={cloud_img} className="footer-cloud footer-cloud-right" />
+        </div>
       </footer>
     </div>
   );

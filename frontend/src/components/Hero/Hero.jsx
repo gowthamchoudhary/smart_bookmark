@@ -182,7 +182,7 @@ const Hero = () => {
           <FaGithub className="platform-icon github" />
         </div> */}
       </div>
-      <div className="bottom-fade"></div>
+      <div className="bottom-fade"></div>      
     </div>
   );
 };

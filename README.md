@@ -6,7 +6,8 @@
 
 <p>
   A full-stack bookmark manager for collecting articles, research papers,
-  videos, tools, and ideas inside clean, searchable workspaces.
+  videos, tools, and ideas inside clean, searchable workspaces. Explore the
+  interactive public demo before creating an account.
 </p>
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -39,6 +40,8 @@ workspace has a purpose and every resource can be found again.
 | `04` | **Bookmark context** | Save a title, URL, and note so every link stays meaningful. |
 | `05` | **Private collections** | Workspace access is validated against the authenticated user. |
 | `06` | **Clean dashboard** | See workspaces and recent bookmarks in one focused view. |
+| `07` | **Public interactive demo** | Preview the product, comparison flow, and sample workspaces without signing up. |
+| `08` | **Personal profiles** | Add a profile picture and bio, then update the bio from the dashboard. |
 
 ## Tech Stack
 
@@ -47,6 +50,7 @@ Frontend                         Backend
 |- React 19                      |- FastAPI
 |- React Router                  |- SQLAlchemy
 |- Axios                         |- PostgreSQL
+|- React Icons                   |- Static file uploads
 |- Vite                          |- Alembic migrations
 `- CSS                           `- JWT authentication
 ```
@@ -75,10 +79,11 @@ smart_bookmark/
 |     |- api/
 |     |- assets/
 |     |- components/
-|     |- context/
+|     |- styles/
 |     `- pages/
 |- backend/
 |  |- alembic/
+|  |- uploads/
 |  `- app/
 |     |- core/
 |     |- db/
@@ -138,7 +143,13 @@ SECRET_KEY=replace-this-with-a-long-random-secret
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 REFRESH_TOKEN_EXPIRE_DAYS=7
+CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+DATABASE_SSLMODE=require
 ```
+
+For deployment, set `CORS_ORIGINS` to the comma-separated frontend URLs that
+may call the API. PostgreSQL connections outside localhost use
+`DATABASE_SSLMODE=require` by default.
 
 Run the migrations and API:
 
@@ -160,35 +171,66 @@ npm install
 npm run dev
 ```
 
+The frontend uses `http://127.0.0.1:8000` by default. To use another API URL,
+create `frontend/.env`:
+
+```env
+VITE_API_URL=http://127.0.0.1:8000
+```
+
 Open `http://localhost:5173` in your browser.
+
+## Application Routes
+
+| Route | Access | Purpose |
+|---|---|---|
+| `/` | Public | Animated landing page |
+| `/demo` | Public | Interactive product demo and sample workspaces |
+| `/auth` | Public | Registration and login |
+| `/dashboard` | Protected | Workspace, bookmark, search, and profile management |
+| `/workspace/:workspaceId` | Protected | Paginated bookmarks for one workspace |
 
 ## API Overview
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| `POST` | `/auth/register` | Create an account |
+| `POST` | `/auth/register` | Create an account with an optional bio and profile picture |
 | `POST` | `/auth/login` | Get access and refresh tokens |
 | `GET` | `/auth/me` | Read the current user |
+| `PATCH` | `/auth/me/bio` | Update the current user's bio |
 | `POST` | `/auth/refresh` | Rotate authentication tokens |
 | `POST` | `/auth/logout` | Revoke a refresh token |
 | `GET/POST` | `/workspace/` | List or create workspaces |
 | `GET/PATCH/DELETE` | `/workspace/{id}` | Manage a workspace |
+| `GET` | `/bookmarks/` | List bookmarks owned by the current user |
 | `POST` | `/bookmarks/{workspace_id}` | Add a bookmark |
 | `GET` | `/bookmarks/{workspace_id}/search` | Search a workspace |
 | `GET` | `/bookmarks/{workspace_id}/paginated` | Browse bookmarks |
-| `DELETE` | `/bookmarks/{workspace_id}/{bookmark_id}` | Remove a bookmark |
+| `PATCH/DELETE` | `/bookmarks/{workspace_id}/{bookmark_id}` | Update or remove a bookmark |
 
 ## Roadmap
 
 - [x] JWT authentication with refresh-token rotation
 - [x] Workspace management and ownership validation
-- [x] Bookmark creation, deletion, search, and pagination
-- [x] Responsive landing page and dashboard foundation
-- [ ] Connect every dashboard interaction to the API
-- [ ] Bookmark editing, favorites, and tags
+- [x] Bookmark creation, editing, deletion, search, and pagination
+- [x] Profile pictures and editable user bios
+- [x] Responsive landing page, public demo, and dashboard
+- [x] Dashboard workspace and bookmark API integration
+- [ ] Favorites and tags
 - [ ] Browser extension for one-click saving
 - [ ] Rich link previews and automatic metadata
 - [ ] Deployment and automated test coverage
+
+## Useful Commands
+
+Run these commands from `frontend/`:
+
+```bash
+npm run dev      # Start the Vite development server
+npm run build    # Create a production build
+npm run lint     # Run ESLint
+npm run preview  # Preview the production build
+```
 
 ## Contributing
 

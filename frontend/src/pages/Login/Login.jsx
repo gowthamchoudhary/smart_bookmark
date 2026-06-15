@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { loginUser } from "../../api/authAPI";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,29 +10,12 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const formData = new URLSearchParams();
-      formData.append("username", email);
-      formData.append("password", password);
-      const res = await fetch("http://127.0.0.1:8000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("refresh_token", data.refresh_token);
-        alert("login successfull");
-        window.location.href = "/dashboard";
-      } else {
-        alert(typeof data.detail === "string" ? data.detail : "Login failed");
-      }
+      await loginUser(email, password);
+      alert("Login successful");
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error(error);
-      alert("Backend connection failed");
+      alert(error.message || "Backend connection failed");
     } finally {
       setLoading(false);
     }
